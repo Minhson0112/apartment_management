@@ -17,8 +17,8 @@
     php artisan migrate
     ```
 ## Kiểm tra môi trường 
-- vào link bên dưới và thấy trang welcome của laravel
-    - http://localhost:8000/
+- vào link bên dưới và thấy trang đăng nhập
+    - http://localhost:8000/login
 
 ## Thông tin môi trường các container đang chạy
 - nginx_apartment (web server)
