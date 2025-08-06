@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         DB::table('user')->insert([
             [
                 'full_name'    => 'Test User 1',
-                'date_of_birth'=> null,
+                'date_of_birth' => null,
                 'phone_number' => null,
                 'mail'         => 'test1@example.com',
                 'user_name'    => 'test1',
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'full_name'    => 'Test User 2',
-                'date_of_birth'=> null,
+                'date_of_birth' => null,
                 'phone_number' => null,
                 'mail'         => 'test2@example.com',
                 'user_name'    => 'test2',
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'full_name'    => 'Test User 3',
-                'date_of_birth'=> null,
+                'date_of_birth' => null,
                 'phone_number' => null,
                 'mail'         => 'test3@example.com',
                 'user_name'    => 'test3',

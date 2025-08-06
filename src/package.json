@@ -5,7 +5,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "format": "prettier --write ."
+    "format": "prettier --write . && vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
