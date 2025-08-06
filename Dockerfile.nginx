@@ -1,0 +1,27 @@
+FROM ubuntu:24.04
+
+# Disable interactive prompts
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Add nginx.org repository and install Nginx mainline
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       curl gnupg2 ca-certificates lsb-release ubuntu-keyring \
+    && curl https://nginx.org/keys/nginx_signing.key | gpg --batch --dearmor \
+       > /usr/share/keyrings/nginx-archive-keyring.gpg \
+    && printf 'deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu %s nginx\n' "$(lsb_release -cs)" \
+       > /etc/apt/sources.list.d/nginx.list \
+    && printf 'Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n' \
+       > /etc/apt/preferences.d/99nginx \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy custom Nginx config
+COPY nginx/conf.d/default.conf /etc/nginx/conf.d/
+
+# Expose HTTP port
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]

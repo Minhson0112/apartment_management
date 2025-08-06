@@ -1,0 +1,55 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: laravel_app_apartment
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./src:/var/www
+    expose:
+      - "9000"
+    networks:
+      - laravel_net
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx_apartment
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./src:/var/www:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    networks:
+      - laravel_net
+    depends_on:
+      - app
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    container_name: mysql_apartment
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: apartment_db
+      MYSQL_USER: laraveluser
+      MYSQL_PASSWORD: laravelpass
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - laravel_net
+
+volumes:
+  dbdata:
+
+networks:
+  laravel_net:
+    driver: bridge
