@@ -16,7 +16,7 @@
     php artisan key:generate
     php artisan migrate
     ```
-## Kiểm tra mỗi trường 
+## Kiểm tra môi trường 
 - vào link bên dưới và thấy trang welcome của laravel
     - http://localhost:8000/
 
@@ -39,3 +39,8 @@
     - clean: refactor code
     - remove: xoá file
     - rename: đổi tên file
+3. trước khi commit bất kì cái gì đều phải chạy lệnh sau để format code
+    ```
+    docker exec -it laravel_app_apartment bash
+    npm run format
+    ```
