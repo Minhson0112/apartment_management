@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Main\DashBoardController;
+use App\Http\Controllers\Main\ApartmentController;
 use Illuminate\Support\Facades\Route;
 
 // Hiển thị form
@@ -11,3 +13,6 @@ Route::post('/login', [LoginController::class, 'login']);
 
 // Route logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/dashboard', [DashBoardController::class, 'showDashBoard'])->name('dashboard');
+Route::get('/apartment', [ApartmentController::class, 'showApartment'])->name('apartment');

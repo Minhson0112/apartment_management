@@ -27,10 +27,10 @@ class LoginController extends Controller
             $user = Auth::user();
             // role khác nhau sau khi đăng nhập sẽ đến các trang khác nhau
             return match ($user->role) {
-                UserRole::ADMIN->value => redirect('/home/dashboard'),
-                UserRole::MANAGER->value => redirect('/home/apartment'),
-                UserRole::COLLABORATOR->value => redirect('/home/apartment'),
-                default => redirect('/home'),
+                UserRole::ADMIN->value => redirect('/dashboard'),
+                UserRole::MANAGER->value => redirect('/apartment'),
+                UserRole::COLLABORATOR->value => redirect('/apartment'),
+                default => redirect('/apartment'),
             };
         }
 
