@@ -15,6 +15,13 @@
     composer install
     php artisan key:generate
     php artisan migrate
+    php artisan db:seed
+    ```
+5. cài phụ thuộc node js trong container và build vite
+    ```
+    npm install
+    npm ci
+    npm run build
     ```
 ## Kiểm tra môi trường 
 - vào link bên dưới và thấy trang đăng nhập
