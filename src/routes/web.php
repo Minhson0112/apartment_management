@@ -14,5 +14,9 @@ Route::post('/login', [LoginController::class, 'login']);
 // Route logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', [DashBoardController::class, 'showDashBoard'])->name('dashboard');
-Route::get('/apartment', [ApartmentController::class, 'showApartment'])->name('apartment');
+// cần đăng nhập
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashBoardController::class, 'showDashBoard'])->name('dashboard');
+
+    Route::get('/apartment', [ApartmentController::class, 'showApartment'])->name('apartment');
+});

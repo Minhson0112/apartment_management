@@ -11,7 +11,7 @@ class DashBoardController extends Controller
     public function showDashBoard()
     {
         if (Auth::user()->role != UserRole::ADMIN->value) {
-            return redirect()->route('login');
+            return response()->view('error.permission', [], 403);
         }
 
         return view('main.dashboard');
