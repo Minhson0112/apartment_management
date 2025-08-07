@@ -6,6 +6,7 @@ $finder = PhpCsFixer\Finder::create()
         __DIR__ . '/database',
         __DIR__ . '/routes',
         __DIR__ . '/tests',
+        __DIR__ . '/resources/views',
     ])
     ->name('*.php')
     ->exclude('storage')
