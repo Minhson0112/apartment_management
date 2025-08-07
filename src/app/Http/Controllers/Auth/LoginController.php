@@ -23,13 +23,13 @@ class LoginController extends Controller
         // attempt với user_name
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
-            // Lấy role sau khi đăng nhập thành công
+            // lấy role sau khi đăng nhập thành công
             $user = Auth::user();
-
+            // role khác nhau sau khi đăng nhập sẽ đến các trang khác nhau
             return match ($user->role) {
-                UserRole::ADMIN->value => redirect('/admin/dashboard'),
-                UserRole::MANAGER->value => redirect('/manager/home'),
-                UserRole::COLLABORATOR->value => redirect('/collab/workspace'),
+                UserRole::ADMIN->value => redirect('/home/dashboard'),
+                UserRole::MANAGER->value => redirect('/home/apartment'),
+                UserRole::COLLABORATOR->value => redirect('/home/apartment'),
                 default => redirect('/home'),
             };
         }
