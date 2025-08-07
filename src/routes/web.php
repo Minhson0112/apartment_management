@@ -19,4 +19,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashBoardController::class, 'showDashBoard'])->name('dashboard');
 
     Route::get('/apartment', [ApartmentController::class, 'showApartment'])->name('apartment');
+    Route::get('/apartment/{id}', [ApartmentController::class, 'detail'])->name('apartment.detail');
 });
