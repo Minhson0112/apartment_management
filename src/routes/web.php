@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Main\DashBoardController;
 use App\Http\Controllers\Main\ApartmentController;
+use App\Http\Controllers\Main\DashBoardController;
 use Illuminate\Support\Facades\Route;
 
 // Hiển thị form

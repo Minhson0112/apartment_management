@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Main;
 
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashBoardController extends Controller
