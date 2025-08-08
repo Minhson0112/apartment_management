@@ -1,5 +1,7 @@
 @php
     use App\Enums\UserRole;
+
+    $isAdmin = Auth::user()->role === UserRole::ADMIN->value;
 @endphp
 
 <!DOCTYPE html>
@@ -18,7 +20,7 @@
         <aside class="sidebar">
             <nav>
                 <ul>
-                    @if(Auth::user()->role === UserRole::ADMIN->value)
+                    @if($isAdmin)
                         <li>
                             <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                                 <img src="{{ asset('images/dashboard.png') }}" alt="dashboard" class="menu-icon">
@@ -32,6 +34,14 @@
                             <span class="menu-text">Căn Hộ</span>
                         </a>
                     </li>
+                    @if($isAdmin)
+                        <li>
+                            <a href="{{ route('owner') }}" class="{{ request()->routeIs('owner') ? 'active' : '' }}">
+                                <img src="{{ asset('images/owner.png') }}" alt="owner" class="menu-icon">
+                                <span class="menu-text">Chủ Nhà</span>
+                            </a>
+                        </li>
+                    @endif
                     <!-- Thêm các mục khác tương tự -->
                 </ul>
             </nav>

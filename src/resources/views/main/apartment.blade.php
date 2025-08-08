@@ -1,7 +1,7 @@
 <!-- resources/views/main/apartment.blade.php -->
 @extends('layouts.app')
 
-@section('title', 'Trang apartment')
+@section('title', 'apartment')
 
 @vite(['resources/css/apartment.css'])
 
