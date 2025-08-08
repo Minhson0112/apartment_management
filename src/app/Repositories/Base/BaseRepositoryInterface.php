@@ -3,6 +3,8 @@
 namespace App\Repositories\Base;
 
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 interface BaseRepositoryInterface
 {
@@ -12,4 +14,9 @@ interface BaseRepositoryInterface
 
     public function all(): Collection;
 
+    public function queryAll(): Builder;
+
+    public function create(array $obj): Model;
+
+    public function createMany(array $rows): bool;
 }

@@ -27,5 +27,6 @@ Route::middleware('auth')->group(function () {
 
     //hiển thị trang quản lý chủ nhà
     Route::get('/owner', [OwnerController::class, 'showOwner'])->name('owner');
-
+    Route::get('/owner/image', [OwnerController::class, 'showImage'])->name('owner.image');
+    Route::post('/owner', [OwnerController::class, 'store'])->name('owner.store');
 });

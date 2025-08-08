@@ -2,6 +2,7 @@
 
 @section('title', 'owner')
 @vite(['resources/js/owner.js'])
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @section('content')
 <div id="owner-page" class="page-content">
     <h1 class="page-title">Danh sách chủ căn hộ</h1>
@@ -51,7 +52,7 @@
 <div id="add-owner-modal" class="modal-overlay">
     <div class="modal-content">
         <h2>Thêm chủ căn hộ</h2>
-        <form id="add-owner-form" enctype="multipart/form-data">
+        <form id="add-owner-form" action="{{ route('owner.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="cccd">CCCD</label>

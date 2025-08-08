@@ -51,23 +51,69 @@ imagesInput.addEventListener('change', (e) => {
 });
 
 // Submit form
-document.getElementById('add-owner-form').addEventListener('submit', function (e) {
+const form = document.getElementById('add-owner-form');
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const form = e.target;
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  clearErrors();
+  const url = form.action;
   const formData = new FormData(form);
-  fetch("{{ route('owner.store') }}", {
-    method: 'POST',
-    headers: {
-      'X-CSRF-TOKEN': '{{ csrf_token() }}',
-    },
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // handle success
-      location.reload();
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+        'Accept': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: formData,
     });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      if (res.status === 422 && data.errors) {
+        showValidationErrors(data.errors);
+      } else {
+        alert(data.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
+      }
+      return;
+    }
+
+    // success
+    alert(data.message || 'Lưu thành công');
+    location.reload();
+
+  } catch (err) {
+    console.error(err);
+    alert('Không thể kết nối server.');
+  } finally {
+    submitBtn.disabled = false;
+  }
 });
+
+function clearErrors() {
+  form.querySelectorAll('.error-text').forEach(e => e.remove());
+  form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+}
+
+function showValidationErrors(errors) {
+  Object.entries(errors).forEach(([field, msgs]) => {
+    // hỗ trợ cả images và images[]
+    const input = form.querySelector(`[name="${field}"]`) || form.querySelector(`[name="${field}[]"]`);
+    const group = input?.closest('.form-group') || form;
+
+    if (input) input.classList.add('is-invalid');
+
+    const err = document.createElement('div');
+    err.className = 'error-text';
+    err.style.color = 'red';
+    err.style.fontSize = '0.9rem';
+    err.textContent = msgs[0] || 'Dữ liệu không hợp lệ.';
+    group.appendChild(err);
+  });
+}
