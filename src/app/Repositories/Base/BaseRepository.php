@@ -3,9 +3,9 @@
 namespace App\Repositories\Base;
 
 use Exception;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+
 abstract class BaseRepository implements BaseRepositoryInterface
 {
     protected $model;

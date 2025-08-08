@@ -3,7 +3,6 @@
 namespace App\Repositories\Apartment;
 
 use App\Models\Apartment;
-use App\Repositories\Apartment\ApartmentRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
 

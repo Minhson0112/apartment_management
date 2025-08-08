@@ -1,4 +1,5 @@
 <?php
+
 // app/Models/Booking.php
 
 namespace App\Models;

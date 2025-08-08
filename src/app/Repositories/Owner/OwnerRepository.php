@@ -3,9 +3,7 @@
 namespace App\Repositories\Owner;
 
 use App\Models\Owner;
-use App\Repositories\Owner\OwnerRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
-use Illuminate\Database\Eloquent\Builder;
 
 class OwnerRepository extends BaseRepository implements OwnerRepositoryInterface
 {

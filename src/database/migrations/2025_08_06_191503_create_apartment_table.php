@@ -14,8 +14,10 @@ class CreateApartmentTable extends Migration
             $table->enum('type', ['1','2','3','4']);
             $table->unsignedBigInteger('area');
             $table->enum('status', ['1','2','3','4']);
-            $table->date('check_in_date')->nullable();;
-            $table->date('check_out_date')->nullable();;
+            $table->date('check_in_date')->nullable();
+            ;
+            $table->date('check_out_date')->nullable();
+            ;
             $table->unsignedBigInteger('apartment_owner');
             $table->unsignedBigInteger('appliances_price');
             $table->unsignedBigInteger('rent_price');

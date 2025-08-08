@@ -1,4 +1,5 @@
 <?php
+
 // app/Models/ImportProduct.php
 
 namespace App\Models;

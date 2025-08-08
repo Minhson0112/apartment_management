@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use App\Repositories\Apartment\ApartmentRepositoryInterface;
 use App\Repositories\Apartment\ApartmentRepository;
-use App\Repositories\Owner\OwnerRepositoryInterface;
+use App\Repositories\Apartment\ApartmentRepositoryInterface;
 use App\Repositories\Owner\OwnerRepository;
+use App\Repositories\Owner\OwnerRepositoryInterface;
+use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider
 {
