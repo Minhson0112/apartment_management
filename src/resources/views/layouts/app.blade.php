@@ -57,7 +57,9 @@
                 <div class="logout-btn">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit">Đăng xuất</button>
+                        <button type="submit">
+                            <img src="{{ asset('images/logout.png') }}" alt="owner" class="logout-icon">
+                        </button>
                     </form>
                 </div>
             </header>

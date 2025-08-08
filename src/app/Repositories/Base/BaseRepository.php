@@ -4,7 +4,8 @@ namespace App\Repositories\Base;
 
 use Exception;
 use Illuminate\Support\Collection;
-
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 abstract class BaseRepository implements BaseRepositoryInterface
 {
     protected $model;
@@ -43,5 +44,10 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function all(): Collection
     {
         return $this->model->all();
+    }
+
+    public function queryAll(): Model
+    {
+        return $this->model;
     }
 }

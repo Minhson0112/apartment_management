@@ -3,8 +3,6 @@
 
 @section('title', 'apartment')
 
-@vite(['resources/css/apartment.css'])
-
 @php
     use Illuminate\Support\Facades\Auth;
     use App\Enums\UserRole;
@@ -12,7 +10,7 @@
 @endphp
 
 @section('content')
-<div id="apartment-page" class="apartment-page">
+<div id="apartment-page" class="page-content">
     <h1 class="page-title">Danh sách căn hộ</h1>
 
     {{-- Form tìm kiếm --}}
@@ -143,33 +141,33 @@
                 </tr>
             </thead>
             <tbody>
-            @forelse($apartments as $apt)
-                <tr>
-                    <td>{{ $apt->id }}</td>
-                    <td>{{ $apt->apartment_name }}</td>
-                    <td>{{ $apt->type }}</td>
-                    <td>{{ $apt->area }}</td>
-                    <td>{{ $apt->status }}</td>
-                    <td>{{ $apt->check_in_date->format('Y-m-d') }}</td>
-                    <td>{{ $apt->check_out_date->format('Y-m-d') }}</td>
-                    <td>
-                        <a href="{{ route('apartment.image', ['id' => $apt->id]) }}" class="action-detail">
-                            <img src="{{ asset('images/image.png') }}" alt="Ảnh">
-                        </a>
-                    </td>
-                    @if($isAdmin)
-                    <td>
-                        <a href="{{ route('apartment.detail', ['id' => $apt->id]) }}" class="action-detail">
-                            <img src="{{ asset('images/detail.png') }}" alt="Chi tiết">
-                        </a>
-                    </td>
-                    @endif
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="{{ $isAdmin ? 9 : 8 }}">Chưa có dữ liệu</td>
-                </tr>
-            @endforelse
+                @forelse($apartments as $apt)
+                    <tr>
+                        <td>{{ $apt->id }}</td>
+                        <td>{{ $apt->apartment_name }}</td>
+                        <td>{{ $apt->type }}</td>
+                        <td>{{ $apt->area }}</td>
+                        <td>{{ $apt->status }}</td>
+                        <td>{{ $apt->check_in_date->format('Y-m-d') }}</td>
+                        <td>{{ $apt->check_out_date->format('Y-m-d') }}</td>
+                        <td>
+                            <a href="{{ route('apartment.image', ['id' => $apt->id]) }}" class="action-detail">
+                                <img src="{{ asset('images/image.png') }}" alt="Ảnh">
+                            </a>
+                        </td>
+                        @if($isAdmin)
+                        <td>
+                            <a href="{{ route('apartment.detail', ['id' => $apt->id]) }}" class="action-detail">
+                                <img src="{{ asset('images/detail.png') }}" alt="Chi tiết">
+                            </a>
+                        </td>
+                        @endif
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="{{ $isAdmin ? 9 : 8 }}">Chưa có dữ liệu</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

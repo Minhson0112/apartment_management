@@ -5,15 +5,31 @@ namespace App\Http\Controllers\Main;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Repositories\Owner\OwnerRepositoryInterface;
 
 class OwnerController extends Controller
 {
-    public function showOwner()
+    protected OwnerRepositoryInterface $ownerRepo;
+
+    public function __construct(OwnerRepositoryInterface $ownerRepo)
+    {
+        $this->ownerRepo = $ownerRepo;
+    }
+
+    public function showOwner(Request $request)
     {
         if (Auth::user()->role != UserRole::ADMIN->value) {
             return response()->view('error.permission', [], 403);
         }
 
-        return view('main.owner');
+        $perPage = (int) $request->input('per_page', self::DEFAULT_PER_PAGE);
+
+        $owners = $this->ownerRepo
+            ->queryAll()
+            ->paginate($perPage)
+            ->withQueryString();
+
+        return view('main.owner', compact('owners', 'perPage'));
     }
 }
