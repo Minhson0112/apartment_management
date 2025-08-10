@@ -179,8 +179,8 @@
 }
 
 #show-add-modal #show-add-modal-img {
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
 }
 
 /* Table styling */
@@ -199,7 +199,7 @@
 .table-list td {
   padding: 0.75rem;
   border: 1px solid #dee2e6;
-  text-align: left;
+  text-align: center;
 }
 
 .table-list thead {
@@ -225,8 +225,8 @@
 }
 
 .action-detail img {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
 }
 
 /* Pagination */
@@ -374,6 +374,7 @@
 }
 .form-group input[type='text'],
 .form-group input[type='date'],
+.form-group input[type='email'],
 .form-group input[type='file'] {
   width: 100%;
   padding: 8px;
@@ -449,3 +450,5 @@
     padding: 15px;
   }
 }
+.is-invalid { border-color: #dc3545; }
+.error-text { color: #dc3545; font-size: .9rem; margin-top: .25rem; }

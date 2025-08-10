@@ -26,4 +26,34 @@ class OwnerRepository extends BaseRepository implements OwnerRepositoryInterface
     {
         return parent::create($obj);
     }
+
+    public function search(array $filters): Builder
+    {
+        $query = $this->queryAll(); // = $this->model->newQuery();
+
+        if (!empty($filters['cccd'])) {
+            $query->where('cccd', $filters['cccd']);
+        }
+        if (!empty($filters['full_name'])) {
+            $query->where('full_name', 'like', '%'.$filters['full_name'].'%');
+        }
+        if (!empty($filters['date_from']) && !empty($filters['date_to'])) {
+            $query->whereBetween('date_of_birth', [$filters['date_from'], $filters['date_to']]);
+        } else {
+            if (!empty($filters['date_from'])) {
+                $query->whereDate('date_of_birth', '>=', $filters['date_from']);
+            }
+            if (!empty($filters['date_to'])) {
+                $query->whereDate('date_of_birth', '<=', $filters['date_to']);
+            }
+        }
+        if (!empty($filters['mobile_number'])) {
+            $query->where('mobile_number', 'like', '%'.$filters['mobile_number'].'%');
+        }
+        if (!empty($filters['email'])) {
+            $query->where('email', 'like', '%'.$filters['email'].'%');
+        }
+
+        return $query;
+    }
 }

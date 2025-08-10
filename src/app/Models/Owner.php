@@ -13,6 +13,8 @@ class Owner extends BaseModel
         'cccd',
         'full_name',
         'date_of_birth',
+        'mobile_number',
+        'email',
     ];
 
     public function apartments()

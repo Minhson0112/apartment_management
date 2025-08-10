@@ -12,7 +12,16 @@
 @section('content')
 <div id="apartment-page" class="page-content">
     <h1 class="page-title">Danh sách căn hộ</h1>
-
+    @if ($errors->any())
+        <div class="alert alert-danger" role="alert" style="margin-bottom: .75rem;">
+            <strong>Không thể tìm kiếm:</strong>
+            <ul style="margin: .5rem 0 0 1rem;">
+                @foreach ($errors->all() as $msg)
+                    <li>{{ $msg }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     {{-- Form tìm kiếm --}}
     <form id="search-form" class="search-form" method="GET" action="{{ route('apartment') }}">
         {{-- Mỗi nhóm tìm kiếm là một section có border-bottom --}}
@@ -27,6 +36,10 @@
                 placeholder="Nhập tên căn hộ"
             >
         </div>
+
+        @error('apartment_name')
+            <div class="error-text">{{ $message }}</div>
+        @enderror
 
         <div class="search-section">
             <label class="section-label">Kiểu phòng</label>
@@ -68,6 +81,14 @@
             </div>
         </div>
 
+        @error('area_min')
+            <div class="error-text">{{ $message }}</div>
+        @enderror
+
+        @error('area_max')
+            <div class="error-text">{{ $message }}</div>
+        @enderror
+
         @if($isAdmin)
         <div class="search-section">
             <label class="section-label">Trạng thái</label>
@@ -101,6 +122,14 @@
             </div>
         </div>
 
+        @error('check_in_from')
+            <div class="error-text">{{ $message }}</div>
+        @enderror
+
+        @error('check_in_to')
+            <div class="error-text">{{ $message }}</div>
+        @enderror
+        
         <div class="search-section">
             <label class="section-label">Trả phòng</label>
             <div class="range-inputs">
@@ -109,6 +138,14 @@
                 <input type="date" name="check_out_to" class="form-control large-input" value="{{ request('check_out_to') }}">
             </div>
         </div>
+
+        @error('check_out_from')
+            <div class="error-text">{{ $message }}</div>
+        @enderror
+
+        @error('check_out_to')
+            <div class="error-text">{{ $message }}</div>
+        @enderror
 
         <div class="search-actions">
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>

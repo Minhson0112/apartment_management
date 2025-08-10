@@ -6,11 +6,111 @@
 @section('content')
 <div id="owner-page" class="page-content">
     <h1 class="page-title">Danh sách chủ căn hộ</h1>
+    @if ($errors->any())
+        <div class="alert alert-danger" role="alert" style="margin-bottom: .75rem;">
+            <strong>Không thể tìm kiếm:</strong>
+            <ul style="margin: .5rem 0 0 1rem;">
+                @foreach ($errors->all() as $msg)
+                    <li>{{ $msg }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    {{-- Form tìm kiếm Owner --}}
+    <form action="{{ route('owner.search') }}" method="GET" class="search-form">
+        <div class="search-section">
+            <label for="search_cccd" class="section-label">CCCD</label>
+            <input
+                type="text"
+                id="search_cccd"
+                name="cccd"
+                class="form-control large-input @error('cccd') is-invalid @enderror"
+                value="{{ old('cccd', request('cccd')) }}"
+            >
+            @error('cccd')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="search-section">
+            <label for="search_full_name" class="section-label">Tên</label>
+            <input
+                type="text"
+                id="search_full_name"
+                name="full_name"
+                class="form-control large-input @error('full_name') is-invalid @enderror"
+                value="{{ old('full_name', request('full_name')) }}"
+            >
+            @error('full_name')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="search-section">
+            <label class="section-label">Ngày sinh</label>
+            <div class="range-inputs">
+                <input
+                    type="date"
+                    id="search_date_from"
+                    name="date_from"
+                    class="form-control large-input @error('date_from') is-invalid @enderror"
+                    value="{{ old('date_from', request('date_from')) }}"
+                >
+                <span class="range-separator">-</span>
+                <input
+                    type="date"
+                    id="search_date_to"
+                    name="date_to"
+                    class="form-control large-input @error('date_to') is-invalid @enderror"
+                    value="{{ old('date_to', request('date_to')) }}"
+                >
+            </div>
+            @error('date_from') <div class="error-text">{{ $message }}</div> @enderror
+            @error('date_to')   <div class="error-text">{{ $message }}</div> @enderror
+        </div>
+
+        <div class="search-section">
+            <label for="search_mobile_number" class="section-label">Số điện thoại</label>
+            <input
+                type="text"
+                id="search_mobile_number"
+                name="mobile_number"
+                class="form-control large-input @error('mobile_number') is-invalid @enderror"
+                value="{{ old('mobile_number', request('mobile_number')) }}"
+                placeholder="VD: 0912345678"
+            >
+            @error('mobile_number')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="search-section">
+            <label for="search_email" class="section-label">Email</label>
+            <input
+                type="text"
+                id="search_email"
+                name="email"
+                class="form-control large-input @error('email') is-invalid @enderror"
+                value="{{ old('email', request('email')) }}"
+                placeholder="VD: example@gmail.com"
+            >
+            @error('email')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="search-actions">
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            <a href="{{ route('owner') }}" class="btn btn-secondary btn-reset">Xóa bộ lọc</a>
+        </div>
+    </form>
+
     <div class="add-button-wapper">
         <button id='show-add-modal'>
             <img src = "{{ asset('images/addButton.png') }}" alt ="add" id='show-add-modal-img'>
         </button>
     </div>
+
     {{-- Bảng kết quả --}}
         <div class="table-wrapper">
         <table class="table-list">
@@ -19,7 +119,8 @@
                     <th>CCCD</th>
                     <th>Tên</th>
                     <th>Ngày Sinh</th>
-                    <th>Ngày Tạo</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Email</th>
                     <th>Ảnh</th>
                 </tr>
             </thead>
@@ -29,7 +130,8 @@
                         <td>{{ $owner->cccd }}</td>
                         <td>{{ $owner->full_name }}</td>
                         <td>{{ $owner->date_of_birth }}</td>
-                        <td>{{ $owner->created_at->format('Y-m-d') }}</td>
+                        <td>{{ $owner->mobile_number }}</td>
+                        <td>{{ $owner->email }}</td>
                         <td>
                             <a href="{{ route('owner.image', ['cccd' => $owner->cccd]) }}" class="action-detail">
                                 <img src="{{ asset('images/image.png') }}" alt="Ảnh">
@@ -38,7 +140,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5">Chưa có dữ liệu</td>
+                        <td colspan="6">Chưa có dữ liệu</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -66,6 +168,17 @@
                 <label for="date_of_birth">Ngày Sinh</label>
                 <input type="date" id="date_of_birth" name="date_of_birth" required>
             </div>
+
+            <div class="form-group">
+                <label for="mobile_number">Số điện thoại</label>
+                <input type="text" id="mobile_number" name="mobile_number" placeholder="VD: 0912345678">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="VD: example@gmail.com">
+            </div>
+
             <div class="form-group">
                 <label>Ảnh</label>
                 <div id="drop-area" class="drop-area">
@@ -74,6 +187,7 @@
                 </div>
                 <ul id="file-list" class="file-list"></ul>
             </div>
+
             <div class="form-actions">
                 <button type="submit">Thêm</button>
                 <button type="button" id="cancel-modal">Hủy</button>

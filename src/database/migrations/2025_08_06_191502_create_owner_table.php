@@ -12,6 +12,8 @@ class CreateOwnerTable extends Migration
             $table->unsignedBigInteger('cccd')->primary();
             $table->string('full_name');
             $table->date('date_of_birth')->nullable();
+            $table->string('mobile_number')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

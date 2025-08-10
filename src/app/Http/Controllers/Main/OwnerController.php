@@ -9,6 +9,7 @@ use App\Repositories\OwnerImage\OwnerImageRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Owner\AddOwnerRequest;
+use App\Http\Requests\Owner\SearchOwnerRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Throwable;
@@ -52,6 +53,8 @@ class OwnerController extends Controller
                 'cccd' => $request['cccd'],
                 'full_name' => $request['full_name'],
                 'date_of_birth' => $request['date_of_birth'],
+                'mobile_number' => $request['mobile_number'],
+                'email' => $request['email'],
             ]);
 
             $savedImages = [];
@@ -96,5 +99,18 @@ class OwnerController extends Controller
     public function showImage() 
     {
 
+    }
+    
+    public function search(searchOwnerRequest $request) 
+    {
+        $filters = $request->validated();
+        $perPage = (int) $request->input('per_page', self::DEFAULT_PER_PAGE);
+
+        $owners = $this->ownerRepo
+        ->search($filters)
+        ->paginate($perPage)
+        ->appends($request->query());
+
+        return view('main.owner', compact('owners', 'perPage'));
     }
 }
