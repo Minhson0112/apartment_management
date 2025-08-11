@@ -17,6 +17,7 @@ class SearchOwnerRequest extends FormRequest
         return [
             'cccd' => ['nullable', 'digits_between:6,20'],
             'full_name' => ['nullable', 'string', 'max:255'],
+            'apartment_name'=> ['nullable', 'string', 'max:15'],
             'date_from' => ['nullable', 'date'],
             'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
             'mobile_number' => ['nullable', 'regex:/^[0-9]{8,15}$/'],
@@ -30,6 +31,8 @@ class SearchOwnerRequest extends FormRequest
             'cccd.digits_between' => 'CCCD phải từ :min đến :max chữ số.',
             'full_name.string' => 'Tên phải là chuỗi ký tự.',
             'full_name.max' => 'Tên không được vượt quá :max ký tự.',
+            'apartment_name.string'   => 'Tên căn hộ phải là chuỗi ký tự.',
+            'apartment_name.max'      => 'Tên căn hộ không được vượt quá :max ký tự.',
             'date_from.date' => 'Ngày sinh (từ) không hợp lệ.',
             'date_to.date' => 'Ngày sinh (đến) không hợp lệ.',
             'date_to.after_or_equal' => 'Ngày sinh (đến) phải sau hoặc bằng ngày sinh (từ).',

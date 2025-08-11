@@ -29,13 +29,19 @@ class OwnerRepository extends BaseRepository implements OwnerRepositoryInterface
 
     public function search(array $filters): Builder
     {
-        $query = $this->queryAll(); // = $this->model->newQuery();
+        $query = $this->queryAll();
 
         if (!empty($filters['cccd'])) {
             $query->where('cccd', $filters['cccd']);
         }
         if (!empty($filters['full_name'])) {
             $query->where('full_name', 'like', '%'.$filters['full_name'].'%');
+        }
+        if (!empty($filters['apartment_name'])) {
+            $name = $filters['apartment_name'];
+            $query->whereHas('apartments', function ($q) use ($name) {
+                $q->where('apartment_name', 'like', '%'.$name.'%');
+            });
         }
         if (!empty($filters['date_from']) && !empty($filters['date_to'])) {
             $query->whereBetween('date_of_birth', [$filters['date_from'], $filters['date_to']]);
@@ -55,5 +61,12 @@ class OwnerRepository extends BaseRepository implements OwnerRepositoryInterface
         }
 
         return $query;
+    }
+
+    public function findByCccd(string $cccd): Model
+    {
+        return $this->queryAll()
+            ->where('cccd', $cccd)
+            ->firstOrFail();
     }
 }

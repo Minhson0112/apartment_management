@@ -73,4 +73,11 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
         return $this->model->newQuery()->insert($rows);
     }
+
+    public function deleteById(mixed $id): bool
+    {
+        return $this->model->newQuery()
+            ->whereKey($id)
+            ->delete() > 0;
+    }
 }

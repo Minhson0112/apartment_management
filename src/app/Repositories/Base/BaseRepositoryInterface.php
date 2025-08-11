@@ -19,4 +19,6 @@ interface BaseRepositoryInterface
     public function create(array $obj): Model;
 
     public function createMany(array $rows): bool;
+
+    public function deleteById(mixed $id): bool;
 }

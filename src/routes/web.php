@@ -27,7 +27,9 @@ Route::middleware('auth')->group(function () {
 
     //hiển thị trang quản lý chủ nhà
     Route::get('/owner', [OwnerController::class, 'showOwner'])->name('owner');
-    Route::get('/owner/image', [OwnerController::class, 'showImage'])->name('owner.image');
+    Route::get('/owners/{cccd}/images', [OwnerController::class, 'showImage'])->name('owner.image');
     Route::post('/owner/add', [OwnerController::class, 'store'])->name('owner.store');
     Route::get('/owner/search', [OwnerController::class, 'search'])->name('owner.search');
+    Route::post('/owners/{cccd}/images', [OwnerController::class, 'storeImages'])->name('owner.image.store');
+    Route::delete('/owners/{cccd}/images/{imageId}', [OwnerController::class, 'deleteImage'])->name('owner.image.delete');
 });

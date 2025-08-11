@@ -11,16 +11,14 @@ class Apartment extends BaseModel
         'type',
         'area',
         'status',
-        'check_in date',
-        'check_out date',
+        'check_in_date',
+        'check_out_date',
         'apartment_owner',
         'appliances_price',
         'rent_price',
         'rent_start_time',
         'rent_end_time',
     ];
-
-    // nếu table không có deleted_at, bạn có thể bỏ SoftDeletes hoặc thêm cột deleted_at vào migration
 
     // Quan hệ với Owner
     public function owner()

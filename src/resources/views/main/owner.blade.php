@@ -33,7 +33,7 @@
         </div>
 
         <div class="search-section">
-            <label for="search_full_name" class="section-label">Tên</label>
+            <label for="search_full_name" class="section-label">Tên chủ nhà</label>
             <input
                 type="text"
                 id="search_full_name"
@@ -42,6 +42,21 @@
                 value="{{ old('full_name', request('full_name')) }}"
             >
             @error('full_name')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="search-section">
+            <label for="search_apartment_name" class="section-label">Tên căn hộ</label>
+            <input
+                type="text"
+                id="search_apartment_name"
+                name="apartment_name"
+                class="form-control large-input @error('apartment_name') is-invalid @enderror"
+                value="{{ old('apartment_name', request('apartment_name')) }}"
+                placeholder="VD: T81702..."
+            >
+            @error('apartment_name')
                 <div class="error-text">{{ $message }}</div>
             @enderror
         </div>

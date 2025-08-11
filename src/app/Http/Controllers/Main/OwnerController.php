@@ -9,11 +9,13 @@ use App\Repositories\OwnerImage\OwnerImageRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Owner\AddOwnerRequest;
+use App\Http\Requests\Owner\AddOwnerImageRequest;
 use App\Http\Requests\Owner\SearchOwnerRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Throwable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class OwnerController extends Controller
 {
@@ -96,9 +98,18 @@ class OwnerController extends Controller
         }
     }
 
-    public function showImage() 
+    public function showImage(string $cccd) 
     {
+        $owner = $this->ownerRepo->findByCccd($cccd);
 
+        $images = $this->ownerImgRepo->getImages($cccd);
+
+        $images = $images->map(function ($row) {
+            $row->url = Storage::disk('public')->url($row->image_file_name);
+            return $row;
+        });
+
+        return view('main.ownerImage', compact('owner', 'images'));
     }
     
     public function search(searchOwnerRequest $request) 
@@ -112,5 +123,46 @@ class OwnerController extends Controller
         ->appends($request->query());
 
         return view('main.owner', compact('owners', 'perPage'));
+    }
+    
+    public function storeImages(AddOwnerImageRequest $request, string $cccd)
+    {
+        $savedImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                // đặt tên file duy nhất
+                $filename = Str::uuid()->toString() . '.' . $file->getClientOriginalExtension();
+                // lưu theo thư mục owners/{cccd}/
+                $path = $file->storeAs("owners/{$cccd}", $filename, 'public'); // disk 'public'
+
+                $savedImages[] = [
+                    'owner' => $cccd,
+                    'image_file_name'=> $path, // lưu path tương đối trên disk
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            if (!empty($savedImages)) {
+                $this->ownerImgRepo->createMany($savedImages);
+            }
+        }
+
+        return redirect()
+            ->route('owner.image', ['cccd' => $cccd])
+            ->with('success', 'Đã thêm ảnh thành công.');
+    }
+
+    public function deleteImage(string $cccd, int $imageId)
+    {
+        $img = $this->ownerImgRepo->findByIdAndCccd($imageId, $cccd);
+
+        Storage::disk('public')->delete($img->image_file_name);
+
+        $this->ownerImgRepo->deleteById($imageId);
+
+        return redirect()
+            ->route('owner.image', ['cccd' => $cccd])
+            ->with('success', 'Đã xóa ảnh.');
     }
 }
