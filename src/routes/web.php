@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/apartment/{id}/images', [ApartmentController::class, 'showImage'])->name('apartment.image');
     Route::get('/apartment/{id}/detail', [ApartmentController::class, 'showDetail'])->name('apartment.detail');
     Route::post('/apartment/add', [ApartmentController::class, 'store'])->name('apartment.store');
+    Route::delete('/apartments/{id}/images/{imageId}', [ApartmentController::class, 'deleteImage'])->name('apartment.image.delete');
+    Route::post('/apartments/{id}/images', [ApartmentController::class, 'storeImages'])->name('apartment.image.store');
+
 
     //hiển thị trang quản lý chủ nhà
     Route::get('/owner', [OwnerController::class, 'showOwner'])->name('owner');

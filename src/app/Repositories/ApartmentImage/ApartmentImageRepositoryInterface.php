@@ -14,4 +14,5 @@ interface ApartmentImageRepositoryInterface
 
     public function queryAll(): Builder;
 
+    public function getImages(string $id): Collection;
 }

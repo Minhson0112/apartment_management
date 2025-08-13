@@ -189,8 +189,8 @@
                         <td>{{ ApartmentType::from($apt->type)->label() }}</td>
                         <td>{{ $apt->area }}</td>
                         <td>{{ ApartmentStatus::from($apt->status)->label() }}</td>
-                        <td>{{ $apt->check_in_date?->format('Y-m-d') }}</td>
-                        <td>{{ $apt->check_out_date?->format('Y-m-d') }}</td>
+                        <td>{{ $apt->check_in_date }}</td>
+                        <td>{{ $apt->check_out_date }}</td>
                         <td>
                             <a href="{{ route('apartment.image', ['id' => $apt->id]) }}" class="action-detail">
                                 <img src="{{ asset('images/image.png') }}" alt="Ảnh">

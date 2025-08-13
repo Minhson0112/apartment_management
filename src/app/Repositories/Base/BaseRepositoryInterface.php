@@ -21,4 +21,8 @@ interface BaseRepositoryInterface
     public function createMany(array $rows): bool;
 
     public function deleteById(mixed $id): bool;
+
+    public function findById(mixed $id): ?Model;
+
+    public function findByIdOrFail(mixed $id): Model;
 }

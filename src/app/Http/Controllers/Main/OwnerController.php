@@ -44,7 +44,7 @@ class OwnerController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
-        return view('main.owner', compact('owners', 'perPage'));
+        return view('owner.owner', compact('owners', 'perPage'));
     }
 
     public function store(AddOwnerRequest $request)
@@ -109,7 +109,7 @@ class OwnerController extends Controller
             return $row;
         });
 
-        return view('main.ownerImage', compact('owner', 'images'));
+        return view('owner.image', compact('owner', 'images'));
     }
 
     public function search(searchOwnerRequest $request)
@@ -122,7 +122,7 @@ class OwnerController extends Controller
             ->paginate($perPage)
             ->appends($request->query());
 
-        return view('main.owner', compact('owners', 'perPage'));
+        return view('owner.owner', compact('owners', 'perPage'));
     }
 
     public function storeImages(AddOwnerImageRequest $request, string $cccd)

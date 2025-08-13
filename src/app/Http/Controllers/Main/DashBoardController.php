@@ -14,6 +14,6 @@ class DashBoardController extends Controller
             return response()->view('error.permission', [], 403);
         }
 
-        return view('main.dashboard');
+        return view('admin.dashboard');
     }
 }

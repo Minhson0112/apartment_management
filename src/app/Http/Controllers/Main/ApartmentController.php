@@ -37,7 +37,7 @@ class ApartmentController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
-        return view('main.apartment', compact('apartments', 'perPage'));
+        return view('apartment.apartment', compact('apartments', 'perPage'));
     }
 
     public function store(AddApartmentRequest $request)
@@ -92,12 +92,29 @@ class ApartmentController extends Controller
         }
     }
 
-    public function showImage()
+    public function showImage(string $id)
+    {
+        $apartment = $this->apartRepo->findByIdOrFail($id);
+        $images = $this->apartImgRepo->getImages($id);
+        $images = $images->map(function ($row) {
+            $row->url = Storage::disk('public')->url($row->image_file_name);
+            return $row;
+        });
+
+        return view('apartment.image', compact('apartment', 'images'));
+    }
+
+    public function showDetail()
     {
 
     }
 
-    public function showDetail()
+    public function deleteImage()
+    {
+
+    }
+
+    public function storeImages()
     {
 
     }
@@ -112,6 +129,6 @@ class ApartmentController extends Controller
         ->paginate($perPage)
         ->appends($request->query());
 
-        return view('main.apartment', compact('apartments', 'perPage'));
+        return view('apartment.apartment', compact('apartments', 'perPage'));
     }
 }

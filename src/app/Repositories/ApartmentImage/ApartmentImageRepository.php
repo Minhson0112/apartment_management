@@ -28,4 +28,12 @@ class ApartmentImageRepository extends BaseRepository implements ApartmentImageR
     {
         return parent::queryAll();
     }
+
+    public function getImages(string $id): Collection
+    {
+        return $this->queryAll()
+            ->where('apartment', $id)
+            ->orderByDesc('created_at')
+            ->get();
+    }
 }

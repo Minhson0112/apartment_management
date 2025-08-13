@@ -80,4 +80,14 @@ abstract class BaseRepository implements BaseRepositoryInterface
             ->whereKey($id)
             ->delete() > 0;
     }
+
+    public function findById(mixed $id): ?Model
+    {
+        return $this->model->newQuery()->find($id);
+    }
+
+    public function findByIdOrFail(mixed $id): Model
+    {
+        return $this->model->newQuery()->findOrFail($id);
+    }
 }
