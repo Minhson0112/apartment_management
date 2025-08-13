@@ -22,8 +22,12 @@ Route::middleware('auth')->group(function () {
 
     // hiển thị trang các căn hộ
     Route::get('/apartment', [ApartmentController::class, 'showApartment'])->name('apartment');
+    Route::get('/apartment/search', [ApartmentController::class, 'search'])->name('apartment.search');
     // chi tiết căn hộ
     Route::get('/apartment/{id}', [ApartmentController::class, 'detail'])->name('apartment.detail');
+    Route::get('/apartment/{id}/images', [ApartmentController::class, 'showImage'])->name('apartment.image');
+    Route::get('/apartment/{id}/detail', [ApartmentController::class, 'showDetail'])->name('apartment.detail');
+    Route::post('/apartment/add', [ApartmentController::class, 'store'])->name('apartment.store');
 
     //hiển thị trang quản lý chủ nhà
     Route::get('/owner', [OwnerController::class, 'showOwner'])->name('owner');

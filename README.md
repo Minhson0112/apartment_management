@@ -16,6 +16,9 @@
     php artisan key:generate
     php artisan migrate
     php artisan db:seed
+    php artisan storage:link
+    chown -R www-data:www-data storage bootstrap/cache public/storage
+    chmod -R 775 storage bootstrap/cache public/storage
     ```
 5. cài phụ thuộc node js trong container và build vite
     ```

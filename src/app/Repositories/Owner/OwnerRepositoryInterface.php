@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Owner;
 use Illuminate\Database\Eloquent\Builder;
-use App\Http\Requests\Owner\SearchOwnerRequest;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Owner;

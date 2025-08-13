@@ -47,7 +47,7 @@ class OwnerController extends Controller
         return view('main.owner', compact('owners', 'perPage'));
     }
 
-    public function store(AddOwnerRequest $request) 
+    public function store(AddOwnerRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -98,7 +98,7 @@ class OwnerController extends Controller
         }
     }
 
-    public function showImage(string $cccd) 
+    public function showImage(string $cccd)
     {
         $owner = $this->ownerRepo->findByCccd($cccd);
 
@@ -111,20 +111,20 @@ class OwnerController extends Controller
 
         return view('main.ownerImage', compact('owner', 'images'));
     }
-    
-    public function search(searchOwnerRequest $request) 
+
+    public function search(searchOwnerRequest $request)
     {
         $filters = $request->validated();
         $perPage = (int) $request->input('per_page', self::DEFAULT_PER_PAGE);
 
         $owners = $this->ownerRepo
-        ->search($filters)
-        ->paginate($perPage)
-        ->appends($request->query());
+            ->search($filters)
+            ->paginate($perPage)
+            ->appends($request->query());
 
         return view('main.owner', compact('owners', 'perPage'));
     }
-    
+
     public function storeImages(AddOwnerImageRequest $request, string $cccd)
     {
         $savedImages = [];

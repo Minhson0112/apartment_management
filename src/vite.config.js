@@ -11,6 +11,7 @@ export default defineConfig({
         'resources/css/app.css',
         'resources/css/permissionError.css',
         'resources/js/owner.js',
+        'resources/js/addApartment.js',
         'resources/css/ownerImage.css',
       ],
       refresh: true,
