@@ -9,6 +9,7 @@
     use App\Enums\UserRole;
     use App\Enums\ApartmentType;
     use App\Enums\ApartmentStatus;
+    use App\Enums\BalconyDirection;
     $isAdmin = Auth::user()->role === UserRole::ADMIN->value;
 @endphp
 
@@ -92,6 +93,26 @@
             <div class="error-text">{{ $message }}</div>
         @enderror
 
+        <div class="search-section">
+            <label class="section-label">Hướng ban công</label>
+            <div class="options-inline">
+                @foreach([BalconyDirection::EAST->value => BalconyDirection::EAST->label(), BalconyDirection::WEST->value => BalconyDirection::WEST->label(), BalconyDirection::SOUTH->value => BalconyDirection::SOUTH->label(), BalconyDirection::NORTH->value => BalconyDirection::NORTH->label(), BalconyDirection::SOUTHEAST->value => BalconyDirection::SOUTHEAST->label(), BalconyDirection::NORTHWEST->value => BalconyDirection::NORTHWEST->label(), BalconyDirection::SOUTHWEST->value => BalconyDirection::SOUTHWEST->label(), BalconyDirection::NORTHEAST->value => BalconyDirection::NORTHEAST->label(), ] as $val => $label)
+                <label class="form-check-inline">
+                    <input
+                        type="checkbox"
+                        name="balcony_direction[]"
+                        value="{{ $val }}"
+                        @if(in_array($val, request('type', []))) checked @endif
+                    >
+                    {{ $label }}
+                </label>
+                @endforeach
+            </div>
+        </div>
+        @error('balcony_direction')
+            <div class="error-text">{{ $message }}</div>
+        @enderror
+
         @if($isAdmin)
             <div class="search-section">
                 <label class="section-label">Trạng thái</label>
@@ -168,14 +189,16 @@
         <table class="table-list">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Tên</th>
                     <th>Loại</th>
                     <th>Diện tích (m²)</th>
+                    <th>Hướng</th>
+                    <th>Số lượng wc</th>
                     <th>Trạng thái</th>
                     <th>Nhận phòng</th>
                     <th>Trả phòng</th>
                     <th>Ảnh</th>
+                    <th>Link QC</th>
                     @if($isAdmin)
                     <th>Chi Tiết</th>
                     @endif
@@ -184,16 +207,22 @@
             <tbody>
                 @forelse($apartments as $apt)
                     <tr>
-                        <td>{{ $apt->id }}</td>
                         <td>{{ $apt->apartment_name }}</td>
                         <td>{{ ApartmentType::from($apt->type)->label() }}</td>
                         <td>{{ $apt->area }}</td>
+                        <td>{{ BalconyDirection::from($apt->balcony_direction)->label() }}</td>
+                        <td>{{ $apt->toilet_count }}</td>
                         <td>{{ ApartmentStatus::from($apt->status)->label() }}</td>
                         <td>{{ $apt->check_in_date }}</td>
                         <td>{{ $apt->check_out_date }}</td>
                         <td>
                             <a href="{{ route('apartment.image', ['id' => $apt->id]) }}" class="action-detail">
                                 <img src="{{ asset('images/image.png') }}" alt="Ảnh">
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ route('apartment.info', ['id' => $apt->id]) }}" class="action-detail">
+                                <img src="{{ asset('images/copy.png') }}" alt="Ảnh">
                             </a>
                         </td>
                         @if($isAdmin)
@@ -206,7 +235,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="{{ $isAdmin ? 9 : 8 }}">Chưa có dữ liệu</td>
+                        <td colspan="{{ $isAdmin ? 11 : 10 }}">Chưa có dữ liệu</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -246,6 +275,26 @@
             </div>
 
             <div class="form-group">
+                <label for="balcony_direction_input">Hướng ban công</label>
+                <select id="balcony_direction_input" name="balcony_direction" required>
+                    <option value="">-- Chọn --</option>
+                    <option value= "{{ BalconyDirection::EAST->value }}"> {{ BalconyDirection::EAST->label() }} </option>
+                    <option value= "{{ BalconyDirection::WEST->value }}"> {{ BalconyDirection::WEST->label() }} </option>
+                    <option value= "{{ BalconyDirection::SOUTH->value }}"> {{ BalconyDirection::SOUTH->label() }} </option>
+                    <option value= "{{ BalconyDirection::NORTH->value }}"> {{ BalconyDirection::NORTH->label() }} </option>
+                    <option value= "{{ BalconyDirection::SOUTHEAST->value }}"> {{ BalconyDirection::SOUTHEAST->label() }} </option>
+                    <option value= "{{ BalconyDirection::NORTHWEST->value }}"> {{ BalconyDirection::NORTHWEST->label() }} </option>
+                    <option value= "{{ BalconyDirection::SOUTHWEST->value }}"> {{ BalconyDirection::SOUTHWEST->label() }} </option>
+                    <option value= "{{ BalconyDirection::NORTHEAST->value }}"> {{ BalconyDirection::NORTHEAST->label() }} </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="toilet_count_input">Số lượng WC</label>
+                <input type="number" id="toilet_count_input" name="toilet_count" min="1" step="1" required>
+            </div>
+
+            <div class="form-group">
                 <label for="owner_cccd_input">CCCD của chủ hộ</label>
                 <input type="text" id="owner_cccd_input" name="apartment_owner" placeholder="VD: 0123456789" required>
             </div>
@@ -268,6 +317,16 @@
             <div class="form-group">
                 <label for="rent_end_time_input">Thời hạn kết thúc hợp đồng</label>
                 <input type="date" id="rent_end_time_input" name="rent_end_time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="note_input">Ghi chú</label>
+                <textarea rows="10" cols="50" type="text" id="note_input" name="note"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="youtube_url_input">link video</label>
+                <input rows="10" cols="50" type="text" id="youtube_url_input" name="youtube_url">
             </div>
 
             <div class="form-group">

@@ -3,10 +3,10 @@
 namespace App\Repositories\Base;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 abstract class BaseRepository implements BaseRepositoryInterface
 {
@@ -60,10 +60,12 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     public function createMany(array $rows): bool
     {
-        if (empty($rows)) return true;
+        if (empty($rows)) {
+            return true;
+        }
 
         if ($this->model->usesTimestamps()) {
-        $now = Carbon::now();
+            $now = Carbon::now();
             foreach ($rows as &$row) {
                 $row['created_at'] = $row['created_at'] ?? $now;
                 $row['updated_at'] = $row['updated_at'] ?? $now;

@@ -2,14 +2,14 @@
 
 namespace App\Repositories\Apartment;
 
+use App\Enums\ApartmentStatus;
+use App\Enums\UserRole;
 use App\Models\Apartment;
 use App\Repositories\Base\BaseRepository;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use App\Enums\UserRole;
-use App\Enums\ApartmentStatus;
-use Carbon\Carbon;
 
 class ApartmentRepository extends BaseRepository implements ApartmentRepositoryInterface
 {
@@ -39,6 +39,8 @@ class ApartmentRepository extends BaseRepository implements ApartmentRepositoryI
                 'apartment_name',
                 'type',
                 'area',
+                'balcony_direction',
+                'toilet_count',
                 'status',
                 'check_in_date',
                 'check_out_date',
@@ -89,6 +91,10 @@ class ApartmentRepository extends BaseRepository implements ApartmentRepositoryI
             $query->whereIn('status', $filters['status']);
         }
 
+        if (!empty($filters['balcony_direction'])) {
+            $query->whereIn('balcony_direction', $filters['balcony_direction']);
+        }
+
         if (!empty($filters['check_in_from'])) {
             $query->whereDate('check_in_date', '>=', $filters['check_in_from']);
         }
@@ -124,5 +130,11 @@ class ApartmentRepository extends BaseRepository implements ApartmentRepositoryI
         }
 
         return $query;
+    }
+
+    public function detail($id): Model
+    {
+        return $this->model::with(['owner:cccd,full_name,mobile_number,email'])
+            ->findOrFail($id);
     }
 }

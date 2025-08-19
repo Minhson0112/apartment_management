@@ -66,7 +66,7 @@ formApt.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: {
         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
       credentials: 'same-origin',
       body: formData,
@@ -85,7 +85,6 @@ formApt.addEventListener('submit', async (e) => {
 
     alert(data.message || 'Thêm căn hộ thành công.');
     location.reload();
-
   } catch (err) {
     console.error(err);
     alert('Không thể kết nối server.');
@@ -95,12 +94,13 @@ formApt.addEventListener('submit', async (e) => {
 });
 
 function clearErrorsApt() {
-  formApt.querySelectorAll('.error-text').forEach(e => e.remove());
-  formApt.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+  formApt.querySelectorAll('.error-text').forEach((e) => e.remove());
+  formApt.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'));
 }
 function showValidationErrorsApt(errors) {
   Object.entries(errors).forEach(([field, msgs]) => {
-    const input = formApt.querySelector(`[name="${field}"]`) || formApt.querySelector(`[name="${field}[]"]`);
+    const input =
+      formApt.querySelector(`[name="${field}"]`) || formApt.querySelector(`[name="${field}[]"]`);
     const group = input?.closest('.form-group') || formApt;
 
     if (input) input.classList.add('is-invalid');

@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Repositories\Owner;
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-
-use App\Models\Owner;
 
 interface OwnerRepositoryInterface
 {

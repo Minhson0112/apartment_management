@@ -4,12 +4,12 @@ namespace App\Providers;
 
 use App\Repositories\Apartment\ApartmentRepository;
 use App\Repositories\Apartment\ApartmentRepositoryInterface;
+use App\Repositories\ApartmentImage\ApartmentImageRepository;
+use App\Repositories\ApartmentImage\ApartmentImageRepositoryInterface;
 use App\Repositories\Owner\OwnerRepository;
 use App\Repositories\Owner\OwnerRepositoryInterface;
 use App\Repositories\OwnerImage\OwnerImageRepository;
 use App\Repositories\OwnerImage\OwnerImageRepositoryInterface;
-use App\Repositories\ApartmentImage\ApartmentImageRepository;
-use App\Repositories\ApartmentImage\ApartmentImageRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider

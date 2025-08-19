@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Apartment;
 
+use App\Enums\ApartmentStatus;
+use App\Enums\ApartmentType;
+use App\Enums\BalconyDirection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Enums\ApartmentType;
-use App\Enums\ApartmentStatus;
 
 class SearchApartmentRequest extends FormRequest
 {
@@ -30,6 +31,10 @@ class SearchApartmentRequest extends FormRequest
 
             'status' => ['nullable', 'array'],
             'status.*' => [Rule::in(array_column(ApartmentStatus::cases(), 'value'))],
+
+            'balcony_direction' => ['nullable', 'array'],
+            'balcony_direction.*' => [Rule::in(array_column(BalconyDirection::cases(), 'value'))],
+
 
             'check_in_from' => ['nullable', 'date'],
             'check_in_to' => ['nullable', 'date', 'after_or_equal:check_in_from'],
@@ -56,6 +61,9 @@ class SearchApartmentRequest extends FormRequest
 
             'status.array' => 'Trạng thái không hợp lệ.',
             'status.*.in' => 'Giá trị trạng thái không hợp lệ.',
+
+            'balcony_direction.array' => 'Hướng không hợp lệ.',
+            'balcony_direction.*.in' => 'Giá trị hướng không hợp lệ.',
 
             'check_in_from.date' => 'Ngày nhận (từ) không hợp lệ.',
             'check_in_to.date' => 'Ngày nhận (đến) không hợp lệ.',

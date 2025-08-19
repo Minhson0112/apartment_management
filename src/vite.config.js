@@ -14,6 +14,8 @@ export default defineConfig({
         'resources/js/addApartment.js',
         'resources/css/ownerImage.css',
         'resources/css/apartmentImage.css',
+        'resources/js/apartmentDetail.js',
+        'resources/css/apartmentDetail.css',
       ],
       refresh: true,
     }),

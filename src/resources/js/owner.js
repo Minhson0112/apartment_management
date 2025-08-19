@@ -67,7 +67,7 @@ form.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: {
         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
       credentials: 'same-origin',
       body: formData,
@@ -87,7 +87,6 @@ form.addEventListener('submit', async (e) => {
     // success
     alert(data.message || 'Lưu thành công');
     location.reload();
-
   } catch (err) {
     console.error(err);
     alert('Không thể kết nối server.');
@@ -97,14 +96,15 @@ form.addEventListener('submit', async (e) => {
 });
 
 function clearErrors() {
-  form.querySelectorAll('.error-text').forEach(e => e.remove());
-  form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+  form.querySelectorAll('.error-text').forEach((e) => e.remove());
+  form.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'));
 }
 
 function showValidationErrors(errors) {
   Object.entries(errors).forEach(([field, msgs]) => {
     // hỗ trợ cả images và images[]
-    const input = form.querySelector(`[name="${field}"]`) || form.querySelector(`[name="${field}[]"]`);
+    const input =
+      form.querySelector(`[name="${field}"]`) || form.querySelector(`[name="${field}[]"]`);
     const group = input?.closest('.form-group') || form;
 
     if (input) input.classList.add('is-invalid');

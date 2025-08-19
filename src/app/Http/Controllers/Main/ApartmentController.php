@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Main;
 
+use App\Enums\ApartmentStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Apartment\AddApartmentRequest;
+use App\Http\Requests\Apartment\SearchApartmentRequest;
 use App\Repositories\Apartment\ApartmentRepositoryInterface;
 use App\Repositories\ApartmentImage\ApartmentImageRepositoryInterface;
 use Illuminate\Http\Request;
-use App\Http\Requests\Apartment\AddApartmentRequest;
-use App\Http\Requests\Apartment\SearchApartmentRequest;
 use Illuminate\Support\Facades\DB;
-use Throwable;
-use App\Enums\ApartmentStatus;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Throwable;
 
 class ApartmentController extends Controller
 {
@@ -22,8 +23,7 @@ class ApartmentController extends Controller
     public function __construct(
         ApartmentRepositoryInterface $apartRepo,
         ApartmentImageRepositoryInterface $apartImgRepo
-    )
-    {
+    ) {
         $this->apartRepo = $apartRepo;
         $this->apartImgRepo = $apartImgRepo;
     }
@@ -49,6 +49,10 @@ class ApartmentController extends Controller
                 'type' => $request['type'],
                 'area' => $request['area'],
                 'status' => ApartmentStatus::AVAILABLE->value,
+                'balcony_direction' => $request['balcony_direction'],
+                'toilet_count' => $request['toilet_count'],
+                'note' => $request['note'],
+                'youtube_url' => $request['youtube_url'],
                 'apartment_owner' => $request['apartment_owner'],
                 'appliances_price' => $request['appliances_price'],
                 'rent_price' => $request['rent_price'],
@@ -84,6 +88,7 @@ class ApartmentController extends Controller
 
         } catch (Throwable $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
             return response()->json([
                 'status'  => 'error',
                 'message' => 'Có lỗi xảy ra khi lưu dữ liệu.',
@@ -104,9 +109,11 @@ class ApartmentController extends Controller
         return view('apartment.image', compact('apartment', 'images'));
     }
 
-    public function showDetail()
+    public function detail(string $id)
     {
+        $apartment = $this->apartRepo->detail($id);
 
+        return view('apartment.detail', compact('apartment'));
     }
 
     public function deleteImage()
@@ -115,6 +122,16 @@ class ApartmentController extends Controller
     }
 
     public function storeImages()
+    {
+
+    }
+
+    public function update()
+    {
+
+    }
+
+    public function info()
     {
 
     }

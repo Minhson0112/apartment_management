@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background: linear-gradient(180deg, #0b0f1a, #0b1224 40%, #0e1730);
+}
+
 /* === Container chính: sidebar + main === */
 .app-container {
   display: flex;
@@ -38,6 +42,10 @@
 /* --- Hover --- */
 .sidebar nav ul li a:hover {
   background: rgba(236, 240, 241, 0.2);
+}
+
+.sidebar {
+    color: white;
 }
 
 /* --- Active (highlight) --- */
@@ -242,9 +250,9 @@
   gap: 0.5rem; /* khoảng cách giữa các nút */
   list-style: none;
   padding: 0.5rem;
-  border-radius: 999px;/* bo tròn tổng thể */
+  border-radius: 999px; /* bo tròn tổng thể */
   background: #f8f9fb; /* nền nhạt cho khối pagination */
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Link + span */
@@ -261,27 +269,32 @@
   color: #374151;
   font-size: 0.95rem;
   text-decoration: none;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease;
 }
 
 /* Hover/focus */
 .pagination .page-link:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
   border-color: #d1d5db;
 }
 .pagination .page-link:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.25); /* blue focus ring */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* blue focus ring */
   border-color: #93c5fd;
 }
 
 /* Active */
 .pagination .page-item.active .page-link {
-  background: #2563eb;    /* xanh chủ đạo */
+  background: #2563eb; /* xanh chủ đạo */
   color: #fff;
   border-color: #2563eb;
-  box-shadow: 0 6px 14px rgba(37,99,235,0.25);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25);
   cursor: default;
 }
 
@@ -315,7 +328,6 @@
     font-size: 0.9rem;
   }
 }
-
 
 .search-form .search-section {
   padding: 1rem 0;
@@ -452,5 +464,11 @@
     padding: 15px;
   }
 }
-.is-invalid { border-color: #dc3545; }
-.error-text { color: #dc3545; font-size: .9rem; margin-top: .25rem; }
+.is-invalid {
+  border-color: #dc3545;
+}
+.error-text {
+  color: #dc3545;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Apartment;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class AddApartmentRequest extends FormRequest
 {
@@ -26,8 +25,10 @@ class AddApartmentRequest extends FormRequest
             'apartment_name'  => ['required','string','max:255'],
             'type' => ['required','in:1,2,3,4'],
             'area' => ['required','numeric','min:0'],
+            'balcony_direction' => ['required','in:1,2,3,4,5,6,7,8'],
+            'toilet_count' => ['required','numeric','min:1'],
             'apartment_owner' => ['required','digits_between:6,20','exists:owner,cccd'],
-            'appliances_price'=> ['nullable','integer','min:0'],
+            'appliances_price' => ['nullable','integer','min:0'],
             'rent_price' => ['required','integer','min:0'],
             'rent_start_time' => ['required','date'],
             'rent_end_time' => ['required','date','after_or_equal:rent_start_time'],
@@ -45,6 +46,9 @@ class AddApartmentRequest extends FormRequest
             'type.in' => 'Kiểu phòng không hợp lệ.',
             'area.required' => 'Vui lòng nhập diện tích.',
             'area.numeric' => 'Diện tích phải là số.',
+            'toilet_count.required' => 'Số lượng wc không được trống',
+            'toilet_count.numeric' => 'Số lượng wc phải là số',
+            'balcony_direction.required' => 'hướng không được trống',
             'apartment_owner.required' => 'Vui lòng nhập CCCD chủ hộ.',
             'apartment_owner.exists' => 'CCCD chủ hộ không tồn tại.',
             'rent_price.required' => 'Vui lòng nhập tiền thuê.',

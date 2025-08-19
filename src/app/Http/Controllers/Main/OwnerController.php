@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Main;
 
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Owner\AddOwnerImageRequest;
+use App\Http\Requests\Owner\AddOwnerRequest;
+use App\Http\Requests\Owner\SearchOwnerRequest;
 use App\Repositories\Owner\OwnerRepositoryInterface;
 use App\Repositories\OwnerImage\OwnerImageRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Owner\AddOwnerRequest;
-use App\Http\Requests\Owner\AddOwnerImageRequest;
-use App\Http\Requests\Owner\SearchOwnerRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Throwable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Throwable;
 
 class OwnerController extends Controller
 {
@@ -25,8 +25,7 @@ class OwnerController extends Controller
     public function __construct(
         OwnerRepositoryInterface $ownerRepo,
         OwnerImageRepositoryInterface $ownerImgRepo
-    )
-    {
+    ) {
         $this->ownerRepo = $ownerRepo;
         $this->ownerImgRepo = $ownerImgRepo;
     }
@@ -69,7 +68,7 @@ class OwnerController extends Controller
 
                     $savedImages[] = [
                         'owner' => $owner->cccd,
-                        'image_file_name'=> $path, // lưu path tương đối trên disk
+                        'image_file_name' => $path, // lưu path tương đối trên disk
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];
@@ -137,7 +136,7 @@ class OwnerController extends Controller
 
                 $savedImages[] = [
                     'owner' => $cccd,
-                    'image_file_name'=> $path, // lưu path tương đối trên disk
+                    'image_file_name' => $path, // lưu path tương đối trên disk
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];

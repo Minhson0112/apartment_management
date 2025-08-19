@@ -14,6 +14,8 @@ class CreateApartmentTable extends Migration
             $table->enum('type', ['1','2','3','4']);
             $table->unsignedBigInteger('area');
             $table->enum('status', ['1','2','3','4']);
+            $table->enum('balcony_direction', ['1','2','3','4','5','6','7','8']);
+            $table->unsignedBigInteger('toilet_count');
             $table->date('check_in_date')->nullable();
             ;
             $table->date('check_out_date')->nullable();
@@ -23,6 +25,8 @@ class CreateApartmentTable extends Migration
             $table->unsignedBigInteger('rent_price');
             $table->date('rent_start_time');
             $table->date('rent_end_time');
+            $table->string('youtube_url')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
 
             $table->foreign('apartment_owner')->references('cccd')->on('owner');

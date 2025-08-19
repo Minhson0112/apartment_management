@@ -16,4 +16,6 @@ interface ApartmentRepositoryInterface
     public function create(array $obj): Model;
 
     public function search(array $filters): Builder;
+
+    public function detail($id): Model;
 }

@@ -20,4 +20,3 @@ enum ApartmentType: string
         };
     }
 }
-

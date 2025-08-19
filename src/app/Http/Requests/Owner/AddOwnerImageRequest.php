@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Owner;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class AddOwnerImageRequest extends FormRequest
 {

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Owner;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class SearchOwnerRequest extends FormRequest
 {
@@ -17,7 +16,7 @@ class SearchOwnerRequest extends FormRequest
         return [
             'cccd' => ['nullable', 'digits_between:6,20'],
             'full_name' => ['nullable', 'string', 'max:255'],
-            'apartment_name'=> ['nullable', 'string', 'max:15'],
+            'apartment_name' => ['nullable', 'string', 'max:15'],
             'date_from' => ['nullable', 'date'],
             'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
             'mobile_number' => ['nullable', 'regex:/^[0-9]{8,15}$/'],
