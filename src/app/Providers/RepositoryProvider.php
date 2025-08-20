@@ -10,6 +10,8 @@ use App\Repositories\Owner\OwnerRepository;
 use App\Repositories\Owner\OwnerRepositoryInterface;
 use App\Repositories\OwnerImage\OwnerImageRepository;
 use App\Repositories\OwnerImage\OwnerImageRepositoryInterface;
+use App\Repositories\ContractExtension\ContractExtensionRepository;
+use App\Repositories\ContractExtension\ContractExtensionRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider
@@ -21,6 +23,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(OwnerRepositoryInterface::class, OwnerRepository::class);
         $this->app->bind(OwnerImageRepositoryInterface::class, OwnerImageRepository::class);
         $this->app->bind(ApartmentImageRepositoryInterface::class, ApartmentImageRepository::class);
+        $this->app->bind(ContractExtensionRepositoryInterface::class, ContractExtensionRepository::class);
     }
 
     public function boot(): void

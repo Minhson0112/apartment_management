@@ -9,6 +9,7 @@ use App\Http\Requests\Apartment\UpdateApartmentRequest;
 use App\Http\Requests\Apartment\SearchApartmentRequest;
 use App\Repositories\Apartment\ApartmentRepositoryInterface;
 use App\Repositories\ApartmentImage\ApartmentImageRepositoryInterface;
+use App\Repositories\ContractExtension\ContractExtensionRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -22,13 +23,16 @@ class ApartmentController extends Controller
 {
     protected ApartmentRepositoryInterface $apartRepo;
     protected ApartmentImageRepositoryInterface $apartImgRepo;
+    protected ContractExtensionRepositoryInterface $contractExtensionRepo;
 
     public function __construct(
         ApartmentRepositoryInterface $apartRepo,
-        ApartmentImageRepositoryInterface $apartImgRepo
+        ApartmentImageRepositoryInterface $apartImgRepo,
+        ContractExtensionRepositoryInterface $contractExtensionRepo
     ) {
         $this->apartRepo = $apartRepo;
         $this->apartImgRepo = $apartImgRepo;
+        $this->contractExtensionRepo = $contractExtensionRepo;
     }
 
     public function showApartment(Request $request)
@@ -61,6 +65,13 @@ class ApartmentController extends Controller
                 'rent_price' => $request['rent_price'],
                 'rent_start_time' => $request['rent_start_time'],
                 'rent_end_time' => $request['rent_end_time'],
+            ]);
+
+            $this->contractExtensionRepo->create([
+                'apartment' => $apartment->id,
+                'rent_start_time' => $request['rent_start_time'],
+                'rent_end_time' => $request['rent_end_time'],
+                'rent_price' => $request['rent_price'],
             ]);
 
             $savedImages = [];

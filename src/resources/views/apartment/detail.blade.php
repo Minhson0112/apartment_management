@@ -61,8 +61,7 @@
             <div class="kv-grid">
                 <div class="kv"><div class="k">Chi phí cứng</div><div class="v" id="v_appliances">{{ number_format((int) $apartment->appliances_price) }} đ</div></div>
                 <div class="kv"><div class="k">Tổng tiền thuê luỹ kế</div><div class="v" id="v_rent">{{ number_format((int) $apartment->rent_price) }} đ</div></div>
-                <div class="kv"><div class="k">Từ ngày</div><div class="v" id="v_rent_start">{{ $apartment->rent_start_time }}</div></div>
-                <div class="kv"><div class="k">Đến ngày</div><div class="v" id="v_rent_end">{{ $apartment->rent_end_time }}</div></div>
+                <div class="kv"><div class="k">Ngày hết hạn hợp đồng</div><div class="v" id="v_rent_end">{{ $apartment->rent_end_time }}</div></div>
             </div>
         </section>
 

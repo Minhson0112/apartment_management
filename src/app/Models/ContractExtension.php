@@ -8,8 +8,8 @@ class ContractExtension extends BaseModel
 
     protected $fillable = [
         'apartment',
-        'expiration date',
-        'date_of_extension',
+        'rent_start_time',
+        'rent_end_time',
         'rent_price',
     ];
 

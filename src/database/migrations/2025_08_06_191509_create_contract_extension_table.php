@@ -11,8 +11,8 @@ class CreateContractExtensionTable extends Migration
         Schema::create('contract_extension', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('apartment');
-            $table->date('expiration_date');
-            $table->date('date_of_extension');
+            $table->date('rent_start_time');
+            $table->date('rent_end_time');
             $table->unsignedBigInteger('rent_price');
             $table->timestamps();
 
