@@ -92,4 +92,11 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->newQuery()->findOrFail($id);
     }
+
+    public function updateById(mixed $id, array $attributes): bool
+    {
+        return $this->model->newQuery()
+            ->whereKey($id)
+            ->update($attributes) > 0;
+    }
 }

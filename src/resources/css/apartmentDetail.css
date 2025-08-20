@@ -192,6 +192,7 @@ body {
   border-radius: 16px;
   box-shadow: var(--shadow);
   overflow: hidden;
+  color: white;
 }
 .modal-header {
   display: flex;
@@ -268,6 +269,18 @@ textarea {
   margin-top: 12px;
   border-top: 1px solid var(--border);
   padding-top: 12px;
+}
+
+.field-error {
+  margin-top: 4px;
+  font-size: 0.875rem;
+  color: #dc2626;
+}
+
+.is-invalid {
+  border-color: #ef4444 !important;
+  outline-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
 }
 
 /* Responsive */

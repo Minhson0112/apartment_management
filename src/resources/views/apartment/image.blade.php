@@ -79,6 +79,5 @@
             <div class="alert alert-info apt-images__empty">Chưa có ảnh nào.</div>
         @endforelse
     </div>
-    <a href="{{ route('apartment') }}" class="btn btn-secondary">Quay lại danh sách</a>
 </div>
 @endsection

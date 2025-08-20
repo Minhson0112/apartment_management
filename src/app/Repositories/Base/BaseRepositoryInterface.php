@@ -25,4 +25,6 @@ interface BaseRepositoryInterface
     public function findById(mixed $id): ?Model;
 
     public function findByIdOrFail(mixed $id): Model;
+
+    public function updateById(mixed $id, array $attributes): bool;
 }

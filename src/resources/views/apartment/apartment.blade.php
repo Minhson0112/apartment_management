@@ -102,7 +102,7 @@
                         type="checkbox"
                         name="balcony_direction[]"
                         value="{{ $val }}"
-                        @if(in_array($val, request('type', []))) checked @endif
+                        @if(in_array($val, request('balcony_direction', []))) checked @endif
                     >
                     {{ $label }}
                 </label>
@@ -221,7 +221,9 @@
                             </a>
                         </td>
                         <td>
-                            <a href="{{ route('apartment.info', ['id' => $apt->id]) }}" class="action-detail">
+                            <a href="{{ route('apartment.info', ['id' => $apt->id]) }}"
+                                class="action-detail copy-link"
+                                data-url="{{ route('apartment.info', ['id' => $apt->id]) }}">
                                 <img src="{{ asset('images/copy.png') }}" alt="Ảnh">
                             </a>
                         </td>

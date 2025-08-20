@@ -1,3 +1,18 @@
+document.querySelectorAll('.copy-link').forEach(el => {
+    el.addEventListener('click', async (e) => {
+      e.preventDefault(); // chặn mở link
+
+      const url = el.getAttribute('data-url');
+      try {
+        await navigator.clipboard.writeText(url);
+        alert('Đã copy URL vào bộ nhớ tạm!');
+      } catch (err) {
+        console.error('Copy failed', err);
+        alert('Không thể copy, vui lòng thử lại.');
+      }
+    });
+  });
+
 document.getElementById('show-add-modal').addEventListener('click', function () {
   document.getElementById('add-apartment-modal').style.display = 'flex';
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 use App\Enums\ApartmentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Apartment\AddApartmentRequest;
+use App\Http\Requests\Apartment\UpdateApartmentRequest;
 use App\Http\Requests\Apartment\SearchApartmentRequest;
 use App\Repositories\Apartment\ApartmentRepositoryInterface;
 use App\Repositories\ApartmentImage\ApartmentImageRepositoryInterface;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Throwable;
+use Illuminate\Support\Facades\Auth;
+use App\Enums\UserRole;
 
 class ApartmentController extends Controller
 {
@@ -111,6 +114,10 @@ class ApartmentController extends Controller
 
     public function detail(string $id)
     {
+        if (Auth::user()->role != UserRole::ADMIN->value) {
+            return response()->view('error.permission', [], 403);
+        }
+
         $apartment = $this->apartRepo->detail($id);
 
         return view('apartment.detail', compact('apartment'));
@@ -126,9 +133,49 @@ class ApartmentController extends Controller
 
     }
 
-    public function update()
+    public function update(string $id, UpdateApartmentRequest $request)
     {
+        DB::beginTransaction();
+        try {
+            $UpdateApartmentCount = $this->apartRepo->updateById(
+                $id,
+                [
+                    'apartment_name' => $request['apartment_name'],
+                    'type' => $request['type'],
+                    'area' => $request['area'],
+                    'balcony_direction' => $request['balcony_direction'],
+                    'toilet_count' => $request['toilet_count'],
+                    'note' => $request['note'],
+                    'youtube_url' => $request['youtube_url'],
+                    'apartment_owner' => $request['apartment_owner'],
+                    'appliances_price' => $request['appliances_price'],
+                ],
+            );
 
+            if (!$UpdateApartmentCount) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Có lỗi xảy ra khi lưu dữ liệu.'
+                ], 500);
+
+                DB::rollBack();
+            }
+
+            DB::commit();
+            return response()->json([
+                'status'  => 'success',
+                'message' => 'Lưu căn hộ thành công.',
+            ], 201);
+
+        } catch (Throwable $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Có lỗi xảy ra khi lưu dữ liệu.',
+                'error' => config('app.debug') ? $e->getMessage() : null,
+            ], 500);
+        }
     }
 
     public function info()

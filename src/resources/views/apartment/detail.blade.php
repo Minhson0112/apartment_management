@@ -10,15 +10,6 @@
     use App\Enums\ApartmentType;
     use App\Enums\BalconyDirection;
     use App\Enums\ApartmentStatus;
-
-    // Helper nhỏ để embed YouTube nếu có URL
-    function youtubeEmbedSrc(?string $url): ?string {
-        if (!$url) return null;
-        // Hỗ trợ cả youtu.be và youtube.com/watch?v=
-        if (preg_match('~youtu\.be/([A-Za-z0-9_-]{6,})~', $url, $m)) return 'https://www.youtube.com/embed/' . $m[1];
-        if (preg_match('~v=([A-Za-z0-9_-]{6,})~', $url, $m)) return 'https://www.youtube.com/embed/' . $m[1];
-        return null;
-    }
 @endphp
 
 @section('content')
@@ -38,7 +29,7 @@
 
         <div class="header-actions">
             <a class="btn ghost" href="{{ route('apartment.image', ['id' => $apartment->id]) }}">Quản lý ảnh</a>
-            <a class="btn ghost" href="{{ route('apartment.info', ['id' => $apartment->id]) }}">Link quảng cáo</a>
+            <a class="btn ghost" href="{{ route('apartment.info', ['id' => $apartment->id]) }}">Trang quảng cáo</a>
             <button id="openEditModalBtn" class="btn primary">
                 <img src="{{ asset('images/modify.png') }}" alt="Sửa" class="btn-icon">
                 Sửa thông tin
@@ -69,7 +60,7 @@
             <h2 class="card-title">Giá & Hợp đồng</h2>
             <div class="kv-grid">
                 <div class="kv"><div class="k">Chi phí cứng</div><div class="v" id="v_appliances">{{ number_format((int) $apartment->appliances_price) }} đ</div></div>
-                <div class="kv"><div class="k">Tổng tiền thuê</div><div class="v" id="v_rent">{{ number_format((int) $apartment->rent_price) }} đ</div></div>
+                <div class="kv"><div class="k">Tổng tiền thuê luỹ kế</div><div class="v" id="v_rent">{{ number_format((int) $apartment->rent_price) }} đ</div></div>
                 <div class="kv"><div class="k">Từ ngày</div><div class="v" id="v_rent_start">{{ $apartment->rent_start_time }}</div></div>
                 <div class="kv"><div class="k">Đến ngày</div><div class="v" id="v_rent_end">{{ $apartment->rent_end_time }}</div></div>
             </div>
@@ -86,15 +77,18 @@
         </section>
 
         <section class="card span-2">
-            <h2 class="card-title">Video giới thiệu</h2>
-            @php $embed = youtubeEmbedSrc($apartment->youtube_url); @endphp
-            @if($embed)
-                <div class="video-wrap">
-                    <iframe width="100%" height="340" src="{{ $embed }}" frameborder="0" allowfullscreen></iframe>
-                </div>
-            @else
-                <div class="placeholder">Chưa có video YouTube.</div>
-            @endif
+        <h2 class="card-title">Video giới thiệu</h2>
+        @if($apartment->youtube_url)
+            <div class="video-wrap">
+            <iframe width="100%" height="450"
+                    src="{{ $apartment->youtube_url }}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </div>
+        @else
+            <div class="placeholder">Chưa có video YouTube.</div>
+        @endif
         </section>
     </div>
 </div>
@@ -147,7 +141,7 @@
 
                 <div class="form-item span-2">
                     <label for="note">Ghi chú</label>
-                    <textarea id="note" name="note" rows="3" placeholder="Ghi chú nội bộ...">{{ $apartment->note }}</textarea>
+                    <textarea id="note" name="note" rows="3" placeholder="Ghi chú giới thiệu căn hộ...">{{ $apartment->note }}</textarea>
                 </div>
 
                 <div class="form-item span-2">
@@ -157,34 +151,12 @@
 
                 <div class="form-item">
                     <label for="apartment_owner">CCCD Chủ nhà</label>
-                    <input list="ownerList" id="apartment_owner" name="apartment_owner" value="{{ $apartment->apartment_owner }}" required>
-                    @isset($owners)
-                        <datalist id="ownerList">
-                            @foreach ($owners as $o)
-                                <option value="{{ $o->cccd }}">{{ $o->name ?? $o->cccd }}</option>
-                            @endforeach
-                        </datalist>
-                    @endisset
+                    <input type="text" id="apartment_owner" name="apartment_owner" value="{{ $apartment->owner->cccd }}" required>
                 </div>
 
                 <div class="form-item">
-                    <label for="appliances_price">Giá đồ điện (đ)</label>
+                    <label for="appliances_price">Chi phí cứng (đ)</label>
                     <input type="number" min="0" id="appliances_price" name="appliances_price" value="{{ $apartment->appliances_price }}" required>
-                </div>
-
-                <div class="form-item">
-                    <label for="rent_price">Tiền thuê (đ)</label>
-                    <input type="number" min="0" id="rent_price" name="rent_price" value="{{ $apartment->rent_price }}" required>
-                </div>
-
-                <div class="form-item">
-                    <label for="rent_start_time">Từ ngày</label>
-                    <input type="date" id="rent_start_time" name="rent_start_time" value="{{ $apartment->rent_start_time }}" required>
-                </div>
-
-                <div class="form-item">
-                    <label for="rent_end_time">Đến ngày</label>
-                    <input type="date" id="rent_end_time" name="rent_end_time" value="{{ $apartment->rent_end_time }}" required>
                 </div>
             </div>
 
