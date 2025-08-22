@@ -13,12 +13,12 @@ class CreateCustomersTable extends Migration
             $table->string('full_name');
             $table->date('date_of_birth')->nullable();
             $table->unsignedBigInteger('phone_number');
-            $table->string('email');
-            $table->string('note');
+            $table->string('email')->nullable();
+            $table->string('note')->nullable();
             $table->unsignedBigInteger('origin');
             $table->timestamps();
 
-            $table->foreign('origin')->references('id')->on('user');
+            $table->foreign('origin')->references('cccd')->on('user');
         });
     }
 

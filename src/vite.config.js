@@ -16,6 +16,7 @@ export default defineConfig({
         'resources/css/apartmentImage.css',
         'resources/js/apartmentDetail.js',
         'resources/css/apartmentDetail.css',
+        'resources/js/contractExtension.js'
       ],
       refresh: true,
     }),

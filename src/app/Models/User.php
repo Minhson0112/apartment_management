@@ -13,17 +13,17 @@ class User extends Authenticatable
     protected $table = 'user';
 
     // Khóa chính
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'cccd';
 
     // Cho phép trường nào mass assign
     protected $fillable = [
+        'cccd',
         'full_name',
         'date_of_birth',
         'phone_number',
         'mail',
         'user_name',
         'password',
-        'cccd',
         'role',
     ];
 

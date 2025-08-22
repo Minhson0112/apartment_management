@@ -22,7 +22,7 @@ class Customer extends BaseModel
     // Quan hệ tới User (origin)
     public function originUser()
     {
-        return $this->belongsTo(User::class, 'origin', 'id');
+        return $this->belongsTo(User::class, 'origin', 'cccd');
     }
 
     public function bookings()

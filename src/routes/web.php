@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/apartment/{id}/images', 'showImage')->name('apartment.image');
         Route::get('/apartment/{id}/detail', 'detail')->name('apartment.detail');
         Route::post('/apartment/add', 'store')->name('apartment.store');
+        Route::post('/apartment//{id}/contractExtension', 'contractExtension')->name('apartment.contractExtension');
         Route::delete('/apartments/{id}/images/{imageId}', 'deleteImage')->name('apartment.image.delete');
         Route::post('/apartments/{id}/images', 'storeImages')->name('apartment.image.store');
         Route::put('/apartment/{id}', 'update')->name('apartment.update');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 use App\Enums\ApartmentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Apartment\AddApartmentRequest;
+use App\Http\Requests\Apartment\ContractExtensionRequest;
 use App\Http\Requests\Apartment\UpdateApartmentRequest;
 use App\Http\Requests\Apartment\SearchApartmentRequest;
 use App\Repositories\Apartment\ApartmentRepositoryInterface;
@@ -123,15 +124,21 @@ class ApartmentController extends Controller
         return view('apartment.image', compact('apartment', 'images'));
     }
 
-    public function detail(string $id)
+    public function detail(string $id, Request $request)
     {
         if (Auth::user()->role != UserRole::ADMIN->value) {
             return response()->view('error.permission', [], 403);
         }
 
-        $apartment = $this->apartRepo->detail($id);
+        $perPage = (int) $request->input('per_page', self::DEFAULT_PER_PAGE);
 
-        return view('apartment.detail', compact('apartment'));
+        $apartment = $this->apartRepo->detail($id);
+        $contracts = $this->contractExtensionRepo
+            ->findByApartmentId($id)
+            ->paginate($perPage)
+            ->withQueryString();
+
+        return view('apartment.detail', compact('apartment', 'contracts', 'perPage'));
     }
 
     public function deleteImage()
@@ -142,6 +149,55 @@ class ApartmentController extends Controller
     public function storeImages()
     {
 
+    }
+
+    public function contractExtension(string $id, ContractExtensionRequest $request)
+    {
+        $apartment = $this->apartRepo->findByIdOrFail($id);
+        $newRentPrice = $apartment->rent_price += $request['rent_price'];
+
+        DB::beginTransaction();
+        try {
+            $UpdateApartmentCount = $this->apartRepo->updateById(
+                $id,
+                [
+                    'rent_price' => $newRentPrice,
+                    'rent_start_time' => $request['rent_start_time'],
+                    'rent_end_time' => $request['rent_end_time'],
+                ],
+            );
+
+            $this->contractExtensionRepo->create([
+                'apartment' => $apartment->id,
+                'rent_start_time' => $request['rent_start_time'],
+                'rent_end_time' => $request['rent_end_time'],
+                'rent_price' => $request['rent_price'],
+            ]);
+
+            if (!$UpdateApartmentCount) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Có lỗi xảy ra khi lưu dữ liệu.'
+                ], 500);
+
+                DB::rollBack();
+            }
+
+            DB::commit();
+            return response()->json([
+                'status'  => 'success',
+                'message' => 'Lưu căn hộ thành công.',
+            ], 201);
+
+        } catch (Throwable $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Có lỗi xảy ra khi lưu dữ liệu.',
+                'error' => config('app.debug') ? $e->getMessage() : null,
+            ], 500);
+        }
     }
 
     public function update(string $id, UpdateApartmentRequest $request)

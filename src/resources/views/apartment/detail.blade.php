@@ -3,7 +3,7 @@
 
 @section('title', 'Apartment Detail')
 
-@vite(['resources/js/apartmentDetail.js', 'resources/css/apartmentDetail.css'])
+@vite(['resources/js/apartmentDetail.js', 'resources/css/apartmentDetail.css', 'resources/js/contractExtension.js'])
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 @php
@@ -90,6 +90,45 @@
         @endif
         </section>
     </div>
+
+    <div class="ContractExtension">
+        <h2>Lịch Sử Gia Hạn Hợp Đồng Căn {{ $apartment->apartment_name }}</h2>
+        <button id="openContractExtensionModalBtn" class="btn primary">
+            <img src="{{ asset('images/contractExtension.png') }}" alt="gia hạn" class="btn-icon">
+            Gia hạn hợp đồng
+        </button>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>số thứ tự</th>
+                    <th>Ngày bắt đầu hợp đồng</th>
+                    <th>Ngày kết thúc hợp đồng</th>
+                    <th>Giá Thuê</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($contracts as $contract)
+                    <tr>
+                        <td>{{ $contract->id }}</td>
+                        <td>{{ $contract->rent_start_time }}</td>
+                        <td>{{ $contract->rent_end_time }}</td>
+                        <td>{{ $contract->rent_price }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4">Chưa có dữ liệu</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination-wrapper">
+        {{ $contracts->links() }}
+    </div>
 </div>
 
 {{-- Modal Edit --}}
@@ -172,6 +211,48 @@
             <div class="modal-footer">
                 <button type="button" class="btn ghost" data-close-modal>Hủy</button>
                 <button type="submit" class="btn primary">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{{-- Modal Contract Extension --}}
+<div class="modal" id="contractExtensionModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-dialog" role="document" aria-labelledby="contractExtensionModalTitle">
+        <div class="modal-header">
+            <h3 id="contractExtensionModalTitle">Gia hạn hợp đồng</h3>
+            <button class="icon-btn" id="closeContractExtensionModalBtn" aria-label="Đóng">×</button>
+        </div>
+
+        <form id="contractExtensionForm"
+                action="{{ route('apartment.contractExtension', ['id' => $apartment->id]) }}"
+                method="POST"
+                class="modal-body">
+            @csrf
+
+            <div class="form-grid">
+                <div class="form-item">
+                    <label for="rent_start_time">Ngày bắt đầu</label>
+                    <input type="date" id="rent_start_time" name="rent_start_time" required>
+                </div>
+
+                <div class="form-item">
+                    <label for="rent_end_time">Ngày kết thúc</label>
+                    <input type="date" id="rent_end_time" name="rent_end_time" required>
+                </div>
+
+                <div class="form-item span-2">
+                    <label for="rent_price">Giá thuê (đ)</label>
+                    <input type="number" id="rent_price" name="rent_price" min="0" required>
+                </div>
+            </div>
+
+            <div class="alert error" id="contractExtensionGeneralError" style="display:none"></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn ghost" data-close-modal>Hủy</button>
+                <button type="submit" class="btn primary">Lưu gia hạn</button>
             </div>
         </form>
     </div>
