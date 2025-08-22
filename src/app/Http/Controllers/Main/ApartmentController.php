@@ -143,12 +143,12 @@ class ApartmentController extends Controller
 
     public function deleteImage()
     {
-
+        //TODO
     }
 
     public function storeImages()
     {
-
+        //TODO
     }
 
     public function contractExtension(string $id, ContractExtensionRequest $request)
@@ -247,7 +247,7 @@ class ApartmentController extends Controller
 
     public function info()
     {
-
+        //TODO
     }
 
     public function search(SearchApartmentRequest $request)

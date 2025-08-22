@@ -131,7 +131,6 @@ class OwnerController extends Controller
             foreach ($request->file('images') as $file) {
                 // đặt tên file duy nhất
                 $filename = Str::uuid()->toString() . '.' . $file->getClientOriginalExtension();
-                // lưu theo thư mục owners/{cccd}/
                 $path = $file->storeAs("owners/{$cccd}", $filename, 'public'); // disk 'public'
 
                 $savedImages[] = [
