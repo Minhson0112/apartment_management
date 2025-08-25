@@ -41,6 +41,12 @@
                                 <span class="menu-text">Chủ Nhà</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('customer') }}" class="{{ request()->routeIs('customer') ? 'active' : '' }}">
+                                <img src="{{ asset('images/customer.png') }}" alt="owner" class="menu-icon">
+                                <span class="menu-text">Khách hàng</span>
+                            </a>
+                        </li>
                     @endif
                     <!-- Thêm các mục khác tương tự -->
                 </ul>

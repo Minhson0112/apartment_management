@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Main\ApartmentController;
 use App\Http\Controllers\Main\DashBoardController;
 use App\Http\Controllers\Main\OwnerController;
+use App\Http\Controllers\Main\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 // Hiển thị form login
@@ -26,7 +27,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', 'showDashBoard')->name('dashboard');
     });
 
-    // hiển thị trang các căn hộ
+    // trang căn hộ
     Route::controller(ApartmentController::class)->group(function () {
         Route::get('/apartment', 'showApartment')->name('apartment');
         Route::get('/apartment/search', 'search')->name('apartment.search');
@@ -39,7 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/apartment/{id}', 'update')->name('apartment.update');
     });
 
-    //hiển thị trang quản lý chủ nhà
+    // trang quản lý chủ nhà
     Route::controller(OwnerController::class)->group(function () {
         Route::get('/owner', 'showOwner')->name('owner');
         Route::get('/owners/{cccd}/images', 'showImage')->name('owner.image');
@@ -47,5 +48,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/owner/search', 'search')->name('owner.search');
         Route::post('/owners/{cccd}/images', 'storeImages')->name('owner.image.store');
         Route::delete('/owners/{cccd}/images/{imageId}', 'deleteImage')->name('owner.image.delete');
+    });
+
+    // trang quản lý khách hàng
+    Route::controller(CustomerController::class)->group(function () {
+        Route::get('/customer', 'showCustomer')->name('customer');
+        Route::get('/customer/search', 'search')->name('customer.search');
     });
 });
