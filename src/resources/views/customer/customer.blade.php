@@ -2,7 +2,7 @@
 
 @section('title', 'owner')
 
-@vite(['resources/js/customer.js', 'resources/js/addCustomer.js'])
+@vite(['resources/js/customer.js', 'resources/js/addCustomer.js', 'resources/css/customer.css'])
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @section('content')
@@ -164,7 +164,9 @@
                         <td>{{ $customer->email }}</td>
                         <td>{{ $customer->user->full_name }}</td>
                         <td>
-                            <a href="" id="show_note" class="action-detail">
+                            <a href="javascript:void(0)"
+                                class="action-detail show-note"
+                                data-note="{{ $customer->note }}">
                                 <img src="{{ asset('images/note.png') }}" alt="Ghi chú">
                             </a>
                         </td>
@@ -190,6 +192,14 @@
 
     <div class="pagination-wrapper">
         {{ $customers->links() }}
+    </div>
+</div>
+{{-- Modal hiển thị ghi chú --}}
+<div id="note-modal" class="note-modal">
+    <div class="note-modal-content">
+        <span class="note-modal-close">&times;</span>
+        <h3>Ghi chú khách hàng</h3>
+        <p id="note-text"></p>
     </div>
 </div>
 <div id="add-customer-modal" class="modal-overlay">

@@ -19,6 +19,7 @@ export default defineConfig({
         'resources/js/contractExtension.js',
         'resources/js/customer.js',
         'resources/js/addCustomer.js',
+        'resources/css/customer.css',
       ],
       refresh: true,
     }),
