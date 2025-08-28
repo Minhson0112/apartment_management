@@ -5,6 +5,7 @@ use App\Http\Controllers\Main\ApartmentController;
 use App\Http\Controllers\Main\DashBoardController;
 use App\Http\Controllers\Main\OwnerController;
 use App\Http\Controllers\Main\CustomerController;
+use App\Http\Controllers\Main\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Hiển thị form login
@@ -54,5 +55,12 @@ Route::middleware('auth')->group(function () {
     Route::controller(CustomerController::class)->group(function () {
         Route::get('/customer', 'showCustomer')->name('customer');
         Route::get('/customer/search', 'search')->name('customer.search');
+        Route::get('/customer/{cccd}/images', 'showImage')->name('customer.image');
+        Route::post('/customer/add', 'store')->name('customer.store');
+    });
+
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/user/all', 'getAll')->name('getAllUser');
+
     });
 });

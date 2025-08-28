@@ -2,6 +2,8 @@
 
 @section('title', 'owner')
 
+@vite(['resources/js/customer.js', 'resources/js/addCustomer.js'])
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @section('content')
 <div id="customer-page" class="page-content">
@@ -115,8 +117,8 @@
         </div>
 
         <div class="search-section">
-            <label for="search_origin" class="section-label" value="{{ old('origin', request('origin')) }}">Nguồn</label>
-            <select id="search_origin" name="origin">
+            <label for="origin" class="section-label" value="{{ old('origin', request('origin')) }}">Nguồn</label>
+            <select id="origin" name="origin" class="form-control large-input @error('origin') is-invalid @enderror">
                 <option value="">-- Chọn --</option>
             </select>
             @error('origin')
@@ -137,7 +139,7 @@
     </div>
 
     {{-- Bảng kết quả --}}
-        <div class="table-wrapper">
+    <div class="table-wrapper">
         <table class="table-list">
             <thead>
                 <tr>
@@ -149,6 +151,7 @@
                     <th>Nguồn</th>
                     <th>Ghi chú</th>
                     <th>Ảnh</th>
+                    <th>Chỉnh sửa</th>
                 </tr>
             </thead>
             <tbody>
@@ -157,9 +160,9 @@
                         <td>{{ $customer->cccd }}</td>
                         <td>{{ $customer->full_name }}</td>
                         <td>{{ $customer->date_of_birth }}</td>
-                        <td>{{ $customer->mobile_number }}</td>
+                        <td>{{ $customer->phone_number }}</td>
                         <td>{{ $customer->email }}</td>
-                        <td>{{ $customer->owner->full_name }}</td>
+                        <td>{{ $customer->user->full_name }}</td>
                         <td>
                             <a href="" id="show_note" class="action-detail">
                                 <img src="{{ asset('images/note.png') }}" alt="Ghi chú">
@@ -170,10 +173,15 @@
                                 <img src="{{ asset('images/image.png') }}" alt="Ảnh">
                             </a>
                         </td>
+                        <td>
+                            <a href="" id="show_modify" class="action-detail">
+                                <img src="{{ asset('images/modify.png') }}" alt="chỉnh sửa">
+                            </a>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8">Chưa có dữ liệu</td>
+                        <td colspan="9">Chưa có dữ liệu</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -182,6 +190,62 @@
 
     <div class="pagination-wrapper">
         {{ $customers->links() }}
+    </div>
+</div>
+<div id="add-customer-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>Thêm khánh hàng</h2>
+        <form id="add-customer-form" action="{{ route('customer.store') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group">
+                <label for="cccd">CCCD</label>
+                <input type="text" id="cccd" name="cccd" required>
+            </div>
+            <div class="form-group">
+                <label for="full_name">Tên</label>
+                <input type="text" id="full_name" name="full_name" required>
+            </div>
+            <div class="form-group">
+                <label for="date_of_birth">Ngày Sinh</label>
+                <input type="date" id="date_of_birth" name="date_of_birth" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Số điện thoại</label>
+                <input type="text" id="phone_number" name="phone_number" placeholder="VD: 0912345678">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="VD: example@gmail.com">
+            </div>
+
+            <div class="form-group">
+                <label for="note_input">Ghi chú</label>
+                <textarea rows="10" cols="50" type="text" id="note_input" name="note"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="origin">Nguồn</label>
+                <select id="origin" name="origin" required>
+                    <option value="">-- Chọn --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ảnh</label>
+                <div id="drop-area" class="drop-area">
+                    <p>Kéo thả hoặc nhấp để chọn ảnh</p>
+                    <input type="file" id="images" name="images[]" accept="image/*" multiple>
+                </div>
+                <ul id="file-list" class="file-list"></ul>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Thêm</button>
+                <button type="button" id="cancel-modal">Hủy</button>
+            </div>
+        </form>
     </div>
 </div>
 @endsection
