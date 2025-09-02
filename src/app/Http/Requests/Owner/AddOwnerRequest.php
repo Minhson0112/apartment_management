@@ -23,10 +23,10 @@ class AddOwnerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cccd' => ['required','integer', Rule::unique('owner', 'cccd')],
+            'cccd' => ['required','digits:12','regex:/^0[0-9]{11}$/', Rule::unique('owner', 'cccd')],
             'full_name' => ['required','string','max:255'],
-            'date_of_birth' => ['required','date'],
-            'mobile_number' => ['nullable','string','max:9'],
+            'date_of_birth' => ['required','date','before:today'],
+            'mobile_number' => ['nullable','string','max:10'],
             'email' => ['nullable','email','max:255', Rule::unique('owner', 'email')],
             'images' => ['nullable','array'],
             'images.*' => ['image','mimes:jpg,jpeg,png,webp','max:5120'], // 5MB mỗi ảnh

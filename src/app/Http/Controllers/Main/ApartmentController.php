@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use Throwable;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\UserRole;
+use App\Http\Requests\Apartment\AddApartmentImageRequest;
 
 class ApartmentController extends Controller
 {
@@ -141,14 +142,47 @@ class ApartmentController extends Controller
         return view('apartment.detail', compact('apartment', 'contracts', 'perPage'));
     }
 
-    public function deleteImage()
+    public function deleteImage(string $apartmentId, int $imageId)
     {
-        //TODO
+         $img = $this->apartImgRepo->findByIdAndApartmentId($imageId, $apartmentId);
+
+    // xóa file trên disk
+    Storage::disk('public')->delete($img->image_file_name);
+
+    // xóa record trong DB
+    $this->apartImgRepo->deleteById($imageId);
+
+    return redirect()
+        ->route('apartment.image', ['id' => $apartmentId])
+        ->with('success', 'Đã xóa ảnh.');
     }
 
-    public function storeImages()
+    public function storeImages(AddApartmentImageRequest $request, string $apartmentId )
     {
-        //TODO
+         $savedImages = [];
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $file) {
+            // đặt tên file duy nhất
+            $filename = Str::uuid()->toString() . '.' . $file->getClientOriginalExtension();
+            // lưu theo thư mục apartments/{id}/
+            $path = $file->storeAs("apartments/{$apartmentId}", $filename, 'public'); 
+
+            $savedImages[] = [
+                'apartment' => $apartmentId,
+                'image_file_name' => $path, // lưu path tương đối
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        if (!empty($savedImages)) {
+            $this->apartImgRepo->createMany($savedImages);
+        }
+    }
+
+    return redirect()
+        ->route('apartment.image', ['id' => $apartmentId])
+        ->with('success', 'Đã thêm ảnh thành công.');
     }
 
     public function contractExtension(string $id, ContractExtensionRequest $request)
