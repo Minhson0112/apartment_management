@@ -37,8 +37,9 @@ class AddOwnerRequest extends FormRequest
     {
         return [
             'cccd.required' => 'Vui lòng nhập số CCCD.',
-            'cccd.integer' => 'Số CCCD phải là số nguyên.',
+            'cccd.digits' => 'Số CCCD phải đủ 12 số.',
             'cccd.unique' => 'Số CCCD này đã tồn tại.',
+            'cccd.regex' => 'Số CCCD phải bắt đầu từ số 0'
 
             'full_name.required' => 'Vui lòng nhập họ và tên.',
             'full_name.string' => 'Họ và tên phải là chuỗi ký tự.',
@@ -46,6 +47,7 @@ class AddOwnerRequest extends FormRequest
 
             'date_of_birth.required' => 'Vui lòng chọn ngày sinh.',
             'date_of_birth.date' => 'Ngày sinh không hợp lệ.',
+            'date_of_birth.before' => 'Ngày sinh không hợp lệ.',
 
             'mobile_number.string' => 'Số điện thoại phải là chuỗi ký tự.',
             'mobile_number.max' => 'Số điện thoại không được vượt quá :max ký tự.',
