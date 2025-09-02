@@ -6,7 +6,7 @@ use App\Models\ApartmentImage;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Database\Eloquent\Model;
 class ApartmentImageRepository extends BaseRepository implements ApartmentImageRepositoryInterface
 {
     #[\Override]
@@ -34,4 +34,13 @@ class ApartmentImageRepository extends BaseRepository implements ApartmentImageR
             ->orderByDesc('created_at')
             ->get();
     }
+    public function findByIdAndApartmentId(int $imageId, string $apartmentId): Model
+    {
+        return $this->queryAll()
+            ->where('id', $imageId)
+            ->where('apartment', $apartmentId)
+            ->firstOrFail();
+    }
+
+
 }
